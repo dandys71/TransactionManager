@@ -1,0 +1,197 @@
+_type: export
+__export_format: 4
+__export_date: 2025-12-15T13:01:53.407Z
+__export_source: insomnia.desktop.app:v0.2.3-a
+resources:
+  - _id: req_04ae0d6a4616405984a3417d29d2f404
+    parentId: fld_03f55e92f2df42bca2d154be1904f85c
+    modified: 1765803074962
+    created: 1765802945856
+    url: http://localhost:5001/v1/users/create
+    name: users/create
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "lubos",
+        	"password": "heslo"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnium/0.2.3-a
+    authentication: {}
+    metaSortKey: -1765802945856
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    segmentParams: []
+    _type: request
+  - _id: fld_03f55e92f2df42bca2d154be1904f85c
+    parentId: wrk_9fa6bef88784497185bcd4c132d5c942
+    modified: 1765802942211
+    created: 1765802942211
+    name: TM
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1765802942211
+    _type: request_group
+  - _id: wrk_9fa6bef88784497185bcd4c132d5c942
+    parentId: null
+    modified: 1765536025291
+    created: 1765536025291
+    name: OA Docker node
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_75af5c453ef741d089eac049b28b63da
+    parentId: fld_03f55e92f2df42bca2d154be1904f85c
+    modified: 1765803087523
+    created: 1765803080642
+    url: http://localhost:5001/v1/users/login
+    name: users/login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "lubos",
+        	"password": "heslo"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnium/0.2.3-a
+    authentication: {}
+    metaSortKey: -1765669491607
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    segmentParams: []
+    _type: request
+  - _id: req_f394241de9a34fd19314463cf845c4b9
+    parentId: fld_03f55e92f2df42bca2d154be1904f85c
+    modified: 1765803527080
+    created: 1765803119445
+    url: http://localhost:5001/v1/accounts/getAccountById?accountId=123
+    name: accounts/getAccountById
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - id: pair_beb68f9fdada4ee1a8057e3fa493eb48
+        name: ""
+        value: ""
+        description: ""
+    headers:
+      - name: User-Agent
+        value: insomnium/0.2.3-a
+    authentication:
+      type: bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imx1Ym9zIiwiaWF0IjoxNzY1ODAzNTE5LCJleHAiOjE3NjU4MDQ0MTl9.qXrzpkVia38-ssG9tuJgu2HL0GiIUMaCj8dA-F_pUBU
+    metaSortKey: -1765602764482.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    segmentParams: []
+    _type: request
+  - _id: req_56eef179372443dda1440c1950e121b4
+    parentId: wrk_9fa6bef88784497185bcd4c132d5c942
+    modified: 1765697280162
+    created: 1765536037358
+    url: http://localhost:6868/api/tutorials/
+    name: create
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"title": "title2",
+        	"description": "description2",
+        	"published": false
+        	
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnium/0.2.3-a
+    authentication: {}
+    metaSortKey: -1765536037358
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    segmentParams: []
+    _type: request
+  - _id: req_2204c18cab1a44da83cb0199d36664a9
+    parentId: wrk_9fa6bef88784497185bcd4c132d5c942
+    modified: 1765536313439
+    created: 1765536284415
+    url: http://localhost:6868/api/tutorials/
+    name: findAll
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnium/0.2.3-a
+    authentication: {}
+    metaSortKey: -1765198530289.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    segmentParams: []
+    _type: request
+  - _id: env_b953aea1e86f7f6adc0ccec0fa3a6bd1f27f3886
+    parentId: wrk_9fa6bef88784497185bcd4c132d5c942
+    modified: 1765536025293
+    created: 1765536025293
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1765536025293
+    _type: environment
+  - _id: jar_b953aea1e86f7f6adc0ccec0fa3a6bd1f27f3886
+    parentId: wrk_9fa6bef88784497185bcd4c132d5c942
+    modified: 1765536025295
+    created: 1765536025295
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
