@@ -39,3 +39,16 @@ export const closeAccountBodySchema = z.object({
   // TODO LA tady doporučuji použít přímo z.iso.datetime();
   closeDate: z.string().optional()
 });
+
+export const createStandingOrderBodySchema = z.object
+({
+  accountId: z.string(),
+  templateId: z.string().optional(),
+  interval: z.enum (["DAILY", "WEEKLY", "MONTHLY"]),
+  customCron: z.string().optional(),
+  dayOfMonth: z.number().int().min(1).max(31).optional(),
+  amount: z.number().positive(),
+  currency: z.string().length(3), //př. "CZK"
+  nextRunAt: z.string().datetime().optional(),
+  active: z.boolean().default(true)
+ })

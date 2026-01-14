@@ -51,3 +51,8 @@ const PORT = process.env.PORT || 5001; //pokusí se to načíst port z env, poku
 app.listen(PORT, () => {
   console.log(`TransactionManager running on http://localhost:${PORT}`);
 });
+
+import standingOrdersRoutes from './routes/standingOrders.js';
+
+// ...
+app.use('/v1/standingOrders', standingOrdersRoutes);
