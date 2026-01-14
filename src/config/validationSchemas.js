@@ -52,3 +52,10 @@ export const createStandingOrderBodySchema = z.object
   nextRunAt: z.string().datetime().optional(),
   active: z.boolean().default(true)
  })
+
+export const createInternalTransferBodySchema = z.object
+({
+  fromAccountId: z.string(),
+  toAccountId: z.string(),
+  amount: z.number().optional(),
+})

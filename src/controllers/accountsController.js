@@ -90,3 +90,5 @@ export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
+
+

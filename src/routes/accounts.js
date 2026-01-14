@@ -28,3 +28,35 @@ router.get('/getBalance', AccountsController.getBalance);
 
 // GET /v1/accounts/getHistory?accountId=...
 router.get('/getHistory', AccountsController.getHistory);
+
+import { Router } from 'express';
+// 1. Import schémata
+import {
+    createStandingOrderBodySchema,
+    createInternalTransferBodySchema
+} from '../config/validationSchemas.js';
+
+// 2. Import controller
+import * as accountsController from '../controllers/accountsController.js';
+
+// 3. Import validační middleware
+import { validate } from '../middlewares/validate.js';
+
+const router = Router();
+
+
+// Standing Order)
+router.post(
+    '/createStandingOrder',
+    validate(createStandingOrderBodySchema),
+    accountsController.createStandingOrder
+);
+
+// (Internal Transfer)
+router.post(
+    '/createInternalTransfer',
+    validate(createInternalTransferBodySchema),
+    accountsController.createInternalTransfer
+);
+
+export default router;
