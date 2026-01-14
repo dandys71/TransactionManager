@@ -15,6 +15,8 @@ import cors from 'cors'; // aby se tvoje API dalo volat z frontendů na jiné do
 import helmet from 'helmet'; //nastaví sadu bezpečnostních HTTP hlaviček (např. X-Content-Type-Options, X-DNS-Prefetch-Control, atd.), čímž snižuje některá rizika ve výchozím nastavení.
 import dotenv from 'dotenv'; //načte proměnné z .env souboru do process.env (např. PORT, „tajemství“ pro tokeny). Díky tomu nejsou hodnoty natvrdo v kódu.
 
+import savingAccountsRoutes from "./routes/savingAccounts.js"; app.use("/saving-accounts", savingAccountsRoutes);
+
 import { router as accountsRouter } from './routes/accounts.js'; //vytvořené routy musíme naimportovat
 import { router as usersRouter } from './routes/users.js'
 import { router as healthRouter } from './routes/health.js';
