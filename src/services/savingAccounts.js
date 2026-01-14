@@ -25,3 +25,11 @@ export const createSavingAccount = (data) => {
     return newAccount;
 };
 
+//Asi se nepoužívá//
+
+export const closeSavingAccountById = (id) => {const account = savingAccounts.find(acc => acc.id === id);
+if (!account) return null;
+account.isClosed = true;
+account.closedAt = Date.now();
+return account;
+};
