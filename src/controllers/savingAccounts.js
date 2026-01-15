@@ -22,3 +22,14 @@ export const postSavingAccount = (req, res) => {
     const newAcc = createSavingAccount(req.body);
     res.status(201).json(newAcc);
 };
+
+
+//Asi se nepoužívá//
+
+export const updateSavingAccount = (req, res) => {
+    const { id } = req.body;
+    const update = updateSavingAccountByid(id, req.body);
+    if (!updated) {
+        return res.status(404).json({ message: "Saving account not found" });
+    }
+}

@@ -8,3 +8,10 @@ export const createSavingAccountSchema = Joi.object({
     balance: Joi.number().min(0).required(),
     interestRate: Joi.number().min(0).required()
 });
+
+
+
+//nepoužívá se protože nemám udělaný closeSavingAccountSchema//
+export const closeSavingAccountSchema = Joi.object({
+    id: Joi.string().required()
+});

@@ -4,7 +4,7 @@ import express from "express";
 import {
     getSavingAccounts,
     getSavingAccount,
-    postSavingAccount
+    postSavingAccount, updateSavingAccount
 } from "../controllers/savingAccounts.js";
 
 import validate from "../middlewares/auth.js";
@@ -17,3 +17,12 @@ router.get("/:id", getSavingAccount);
 router.post("/", validate(createSavingAccountSchema), postSavingAccount);
 
 export default router;
+
+
+
+//Nevím zda funguje a jestli se používá//
+router.post(
+    "/updateAccount",
+    validate(updateSavingAccountSchema),
+    updateSavingAccount
+);
