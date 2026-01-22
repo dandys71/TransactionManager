@@ -1,7 +1,7 @@
 // src/services/savingAccountsController.js
 
 import { savingAccounts } from "../models/savingAccounts.js";
-import { v4 as uuid } from "uuid";
+import crypto from 'crypto'; //toto se používá jen na generování náhodného ID pro uživatele
 
 export const getAllSavingAccounts = () => savingAccounts;
 
@@ -10,7 +10,7 @@ export const getSavingAccountById = (id) =>
 
 export const createSavingAccount = (data) => {
     const newAccount = {
-        id: uuid(),
+        id: crypto.randomUUID(),
         createdAt: new Date().toISOString(),
         isClosed: false,
         ...data
