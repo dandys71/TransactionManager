@@ -1,4 +1,3 @@
-// src/models/savingAccounts.js
 
 export const savingAccounts = [
     {

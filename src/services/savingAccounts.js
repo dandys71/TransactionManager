@@ -1,11 +1,4 @@
-import { Router } from 'express';
-export const router = Router();
-
-router.post('/createAccount', (req, res) => {
-    res.json({ ok: true, service: 'TransactionManager', time: new Date().toISOString() });
-});
-
-// src/services/savingAccounts.js
+// src/services/savingAccountsController.js
 
 import { savingAccounts } from "../models/savingAccounts.js";
 import { v4 as uuid } from "uuid";
@@ -19,17 +12,31 @@ export const createSavingAccount = (data) => {
     const newAccount = {
         id: uuid(),
         createdAt: new Date().toISOString(),
+        isClosed: false,
         ...data
     };
     savingAccounts.push(newAccount);
     return newAccount;
 };
 
-//Asi se nepoužívá//
+export const updateSavingAccountById = (id, data) => {
+    const index = savingAccounts.findIndex(acc => acc.id === id);
+    if (index === -1) return null;
 
-export const closeSavingAccountById = (id) => {const account = savingAccounts.find(acc => acc.id === id);
-if (!account) return null;
-account.isClosed = true;
-account.closedAt = Date.now();
-return account;
+    savingAccounts[index] = {
+        ...savingAccounts[index],
+        ...data,
+        updatedAt: new Date().toISOString()
+    };
+
+    return savingAccounts[index];
+};
+
+export const closeSavingAccountById = (id) => {
+    const account = savingAccounts.find(acc => acc.id === id);
+    if (!account) return null;
+
+    account.isClosed = true;
+    account.closedAt = new Date().toISOString();
+    return account;
 };

@@ -1,28 +1,16 @@
-// src/routes/savingAccounts.js
+// src/routes/savingAccountsController.js
 
 import express from "express";
 import {
     getSavingAccounts,
-    getSavingAccount,
-    postSavingAccount, updateSavingAccount
-} from "../controllers/savingAccounts.js";
+    getSavingAccount
+} from "../controllers/savingAccountsController.js";
 
-import validate from "../middlewares/auth.js";
-import { createSavingAccountSchema } from "../config/validationSchemas.js";
+
 
 const router = express.Router();
 
-router.get("/", getSavingAccounts);
-router.get("/:id", getSavingAccount);
-router.post("/", validate(createSavingAccountSchema), postSavingAccount);
+router.get("/listAccounts", getSavingAccounts);
+router.get("/getAccountById/:id", getSavingAccount);
 
 export default router;
-
-
-
-//Nevím zda funguje a jestli se používá//
-router.post(
-    "/updateAccount",
-    validate(updateSavingAccountSchema),
-    updateSavingAccount
-);
