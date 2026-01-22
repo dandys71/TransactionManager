@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as standingOrdersController from '../controllers/standingOrdersController.js';
+import * as standingOrdersController from '../controllers/standingOrdersController.js'; // doma pushnout
 import { createStandingOrderBodySchema } from '../config/validationSchemas.js';
 import { validate } from '../middlewares/validate.js';
 
@@ -9,7 +9,7 @@ const router = Router();
 router.post
 (
     '/',
-    validate(createStandingOrderBodySchema), // validace
+    validate(createStandingOrderBodySchema), // validace //
     standingOrdersController.createStandingOrder
 );
 
