@@ -8,6 +8,7 @@ import * as AccountsService from '../services/accountsService.js';
 
 import { validate } from '../services/validationService.js';
 import * as ValidationSchemas from '../config/validationSchemas.js';
+import {z} from "zod";
 
 /**
  * Zod je malá knihovna na ověřování a „tvarování“ dat (validaci). Uděláš si „schéma" toho, jak mají vypadat vstupy (třeba body/query),
@@ -20,7 +21,11 @@ import * as ValidationSchemas from '../config/validationSchemas.js';
 class AccountsController {
   async getAccountById(req, res, next) {
     try {
-      const q = validate(ValidationSchemas.accountIdQuerySchema, req.query);
+      //const q = validate(ValidationSchemas.accountIdQuerySchema, req.query);
+        const q = z.object({
+            accountId: z.string()
+        }).parse(req.query);
+
       const item = await AccountsService.getAccountById(q.accountId, req.user);
       if (!item) return res.status(404).json({ error: 'Not Found' });
       res.json(item);
