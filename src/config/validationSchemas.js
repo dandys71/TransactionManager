@@ -59,3 +59,19 @@ export const createInternalTransferBodySchema = z.object
   toAccountId: z.string(),
   amount: z.number().optional(),
 })
+
+export const getTransactionByIdQuerySchema = z.object({
+  transactionId: z.string({
+    recipientId:"transactionId je povinný údaj",
+  })
+})
+
+export const listTransactionsQuerySchema = z.object({
+  accountId: z.string().optional(),
+  institutionId: z.string().optional(),
+  userId: z.string().optional(),
+  dateFrom: z.string().datetime().optional(),
+  dateTo: z.string().datetime().optional(),
+  page: z.coerce.number().int().min(1).default(1),
+  pageSize: z.coerce.number().int().min(1).max(200).default(50)
+})

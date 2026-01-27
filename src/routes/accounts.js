@@ -33,7 +33,7 @@ import { Router } from 'express';
 // 1. Import schémata
 import {
     createStandingOrderBodySchema,
-    createInternalTransferBodySchema
+    createInternalTransferBodySchema, listTransactionsQuerySchema
 } from '../config/validationSchemas.js';
 
 // 2. Import controller
@@ -60,3 +60,17 @@ router.post(
 );
 
 export default router;
+
+// Transaction By ID
+router.get(
+    '/getTransactionById',
+    validate(getTransactionByIdQuerySchema, 'query'), //hledá v query, ne v body
+    accountsController.getTransactionById
+);
+
+//list Transactions
+router.get(
+    '/listTransaction',
+    validate(listTransactionsQuerySchema, 'query'),
+    accountsController.listTransactions
+);
