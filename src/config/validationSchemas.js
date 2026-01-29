@@ -11,6 +11,10 @@ export const accountIdQuerySchema = z.object({
   accountId: z.string()
 });
 
+
+
+
+
 export const getBalanceQuerySchema = accountIdQuerySchema;
 
 export const getHistoryQuerySchema = z.object({

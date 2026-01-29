@@ -1,7 +1,7 @@
 import {Router} from "express";
-import * as standingOrderService from "../services/accountsService.js";
+import * as StandingController from '../controllers/standingOrderController.js';
 
 
 export const router = Router();
 
-router.get('/createStandingOrder', standingOrder(req, res) => {} );
+router.get('/createStandingOrder', StandingController.getStandingOrderById);

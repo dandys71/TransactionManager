@@ -42,7 +42,7 @@ app.use('/v1/accounts', accountsRouter); //všechny routy, co vytvoříme v rout
 //jelikož je /v1/accounts společné pro všechny endpointy (routy) v rámci accountsRouter, tak je lepší tuto společnou část použít, zde než aby se musela explicitně zmiňovat u každé routy
 app.use('/v1/health', healthRouter); //routa pro rychlé ověření, že server běží a naslouchá
 app.use('/v1/users', usersRouter); //routa pro praci s uzivateli
-app.use('/v1/standingOrders', standingOrders);
+//app.use('/v1/standingOrders', standingOrders);
 
 //toto je centrální error handler, všimněte si, že pokud někde nastane chyba, tak se nepošle uživateli rovnou přes res, ale volá se next,
 // proč next? jelikož jsme ho "zaregistrovali pomocí use" až za /v1/accounts a za /v1/health a je tedy až další v řadě pro zpracování
