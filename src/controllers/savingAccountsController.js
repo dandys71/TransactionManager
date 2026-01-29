@@ -8,45 +8,74 @@ import {
     closeSavingAccountById
 } from "../services/savingAccounts.js";
 
-export const getSavingAccounts = (req, res) => {
-    res.json(getAllSavingAccounts());
-};
+import {validate} from "../services/validationService.js";
+import {
+    createSavingAccountSchema,
+    updateSavingAccountSchema,
+    closeSavingAccountSchema
+} from "../config/savingAccountsSchemas.js";
 
-export const getSavingAccount = (req, res) => {
-    const { id } = req.params; // ← správně
-    const account = getSavingAccountById(id);
+class SavingAccountsController {
 
-    if (!account) {
-        return res.status(404).json({ message: "Saving account not found" });
+    async listAccounts(req, res, next) {
+        try {
+            const data = getAllSavingAccounts();
+            res.json(data);
+        } catch (e) { next(e); }
     }
 
-    res.json(account);
-};
+    async getAccountById(req, res, next) {
+        try {
+            const { id } = req.params;
+            const account = getSavingAccountById(id);
 
+            if (!account) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
 
-export const postSavingAccount = (req, res) => {
-    const newAcc = createSavingAccount(req.body);
-    res.status(201).json(newAcc);
-};
-
-export const updateSavingAccount = (req, res) => {
-    const { id } = req.body;
-    const updated = updateSavingAccountById(id, req.body);
-
-    if (!updated) {
-        return res.status(404).json({ message: "Saving account not found" });
+            res.json(account);
+        } catch (e) { next(e); }
     }
 
-    res.json(updated);
-};
-
-export const closeSavingAccount = (req, res) => {
-    const { id } = req.body;
-    const closed = closeSavingAccountById(id);
-
-    if (!closed) {
-        return res.status(404).json({ message: "Saving account not found" });
+    async createAccount(req, res, next) {
+        try {
+            const body = validate(createSavingAccountSchema, req.body);
+            const created = createSavingAccount(body);
+            res.status(201).json(created);
+        } catch (e) { next(e); }
     }
 
-    res.json({ message: "Account closed", account: closed });
-};
+    async updateAccount(req, res, next) {
+        try {
+            const body = validate(updateSavingAccountSchema, req.body);
+            const updated = updateSavingAccountById(body.id, body);
+
+            if (!updated) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json(updated);
+        } catch (e) { next(e); }
+    }
+
+    async closeAccount(req, res, next) {
+        try {
+            const body = validate(closeSavingAccountSchema, req.body);
+            const closed = closeSavingAccountById(body.id);
+
+            if (!closed) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json({ message: "Account closed", account: closed });
+        } catch (e) { next(e); }
+    }
+}
+
+const controller = new SavingAccountsController();
+
+export const listAccounts = controller.listAccounts.bind(controller);
+export const getAccountById = controller.getAccountById.bind(controller);
+export const createAccount = controller.createAccount.bind(controller);
+export const updateAccount = controller.updateAccount.bind(controller);
+export const closeAccount = controller.closeAccount.bind(controller);

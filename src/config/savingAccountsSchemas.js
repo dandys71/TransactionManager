@@ -1,0 +1,22 @@
+// src/config/validationSchemas.js
+
+import {z} from "zod";
+
+export const createSavingAccountSchema = z.object({
+    userId: z.string(),
+    accountNumber: z.string(),
+    balance: z.number().min(0),
+    interestRate: z.number().min(0),
+});
+
+export const updateSavingAccountSchema = z.object({
+    id: z.string(),
+    userId: z.string().optional(),
+    accountNumber: z.string().optional(),
+    balance: z.number().min(0).optional(),
+    interestRate: z.number().min(0).optional()
+});
+
+export const closeSavingAccountSchema = z.object({
+    id: z.string()
+});

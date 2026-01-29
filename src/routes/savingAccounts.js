@@ -1,16 +1,23 @@
 // src/routes/savingAccountsController.js
 
-import express from "express";
-import {
-    getSavingAccounts,
-    getSavingAccount
-} from "../controllers/savingAccountsController.js";
+import { Router } from 'express';
+import * as SavingAccountsController from '../controllers/savingAccountsController.js';
+import { allowRoles } from "../middlewares/roles.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
+export const router = Router();
 
+// GET /v1/savingsAccounts/getAccountById?id=...
+router.get('/getAccountById', authMiddleware, SavingAccountsController.getAccountById);
 
-const router = express.Router();
+// GET /v1/savingsAccounts/listAccounts?userId=...&page=1&pageSize=50
+router.get('/listAccounts', SavingAccountsController.listAccounts);
 
-router.get("/listAccounts", getSavingAccounts);
-router.get("/getAccountById/:id", getSavingAccount);
+// POST /v1/savingsAccounts/createAccount
+router.post('/createAccount', SavingAccountsController.createAccount, allowRoles("admin", "boss"));
 
-export default router;
+// POST /v1/savingsAccounts/updateAccount
+router.post('/updateAccount', SavingAccountsController.updateAccount);
+
+// POST /v1/savingsAccounts/closeAccount
+router.post('/closeAccount', SavingAccountsController.closeAccount);
