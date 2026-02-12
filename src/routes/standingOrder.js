@@ -5,3 +5,5 @@ import * as StandingController from '../controllers/standingOrderController.js';
 export const router = Router();
 
 router.get('/createStandingOrder', StandingController.getStandingOrderById);
+
+router.post('/createStandingOrder', StandingController.createStandingOrder);

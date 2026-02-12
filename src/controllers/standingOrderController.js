@@ -22,3 +22,4 @@ const controller = new StandingOrderController();
 
 export const getStandingOrderById = controller.getStandingOrderById.bind(controller);
 export const createStandingOrder = controller.createStandingOrder.bind(controller);
+
