@@ -1,13 +1,17 @@
 // POST /createTransaction
+import * as ValidationSchemas from "../validationSchemas/transactionSchema.js";
+import { validate } from '../services/validationService.js';
+
 export const createTransaction = async (req, res, next) => {
     try {
+        const q = validate(ValidationSchemas.createTransactionBodySchema);
         // Data, která vracíme (přesně podle tvého JSONu)
         const responseData = {
             transactionId: "string",
             accountId: "string",
             counterpartyAccount: "string",
             amount: 0,
-            currency: "string",
+            currency: "string", //model vytvořit
             direction: "income",
             status: "pending",
             vs: "string",
@@ -25,6 +29,7 @@ export const createTransaction = async (req, res, next) => {
         next(error);
     }
 };
+
 
 
 // POST /createInternalTransfer
