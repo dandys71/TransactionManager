@@ -1,6 +1,6 @@
 // src/services/savingAccountsController.js
 
-import { savingAccounts } from "../models/savingAccounts.js";
+import * as savingAccounts from "../models/savingAccounts.js";
 import crypto from 'crypto'; //toto se používá jen na generování náhodného ID pro uživatele
 
 export const getAllSavingAccounts = () => savingAccounts;
@@ -15,10 +15,17 @@ export const createSavingAccount = (data) => {
         isClosed: false,
         ...data
     };
-    savingAccounts.push(newAccount);
+    savingAccounts.createSavingAccount(newAccount)
     return newAccount;
 };
 
+export const getBalance = (id) => {
+    return savingAccounts.getBalance(id);
+}
+
+
+
+/// Nebudou fungivat opravit
 export const updateSavingAccountById = (id, data) => {
     const index = savingAccounts.findIndex(acc => acc.id === id);
     if (index === -1) return null;
@@ -40,3 +47,4 @@ export const closeSavingAccountById = (id) => {
     account.closedAt = new Date().toISOString();
     return account;
 };
+

@@ -21,3 +21,7 @@ router.post('/updateAccount', SavingAccountsController.updateAccount);
 
 // POST /v1/savingsAccounts/closeAccount
 router.post('/closeAccount', SavingAccountsController.closeAccount);
+
+//GET /v1/savingAccounts/getBalance
+router.get('/getBalance', SavingAccountsController.getBalance);
+

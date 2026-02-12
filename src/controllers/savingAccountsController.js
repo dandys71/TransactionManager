@@ -5,15 +5,17 @@ import {
     getSavingAccountById,
     createSavingAccount,
     updateSavingAccountById,
-    closeSavingAccountById
+    closeSavingAccountById,
+    getBalance
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
 import {
     createSavingAccountSchema,
     updateSavingAccountSchema,
-    closeSavingAccountSchema
-} from "../config/savingAccountsSchemas.js";
+    closeSavingAccountSchema,
+    getBalanceQuerySchema
+} from "../validationSchemas/savingAccountsSchemas.js";
 
 class SavingAccountsController {
 
@@ -36,6 +38,20 @@ class SavingAccountsController {
             res.json(account);
         } catch (e) { next(e); }
     }
+
+    async getBalance(req, res, next) {
+        try {
+            const {accountId} =validate(getBalanceQuerySchema, req.body);
+            const result = getBalance(accountId);
+
+            if (!result) {
+                return res.status(404).json({ message: "Saving balance not found" });
+
+            }
+            res.json(result);
+        } catch (e) { next(e); }
+    }
+
 
     async createAccount(req, res, next) {
         try {
@@ -79,3 +95,4 @@ export const getAccountById = controller.getAccountById.bind(controller);
 export const createAccount = controller.createAccount.bind(controller);
 export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
+export const getBalance = controller.getBalance.bind(controller);

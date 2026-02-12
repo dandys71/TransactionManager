@@ -20,3 +20,7 @@ export const updateSavingAccountSchema = z.object({
 export const closeSavingAccountSchema = z.object({
     id: z.string()
 });
+
+export const getBalanceQuerySchema = z.object({
+    id: z.string()
+});
