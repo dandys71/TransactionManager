@@ -22,7 +22,9 @@ export const createSavingAccount = (data) => {
 export const getBalance = (id) => {
     return savingAccounts.getBalance(id);
 }
-
+export const getHistory = (id) => {
+    return savingAccounts.getHistory(id);
+}
 
 
 /// Nebudou fungivat opravit

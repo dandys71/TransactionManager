@@ -6,7 +6,8 @@ import {
     createSavingAccount,
     updateSavingAccountById,
     closeSavingAccountById,
-    getBalance
+    getBalance,
+    getHistory
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
@@ -14,8 +15,10 @@ import {
     createSavingAccountSchema,
     updateSavingAccountSchema,
     closeSavingAccountSchema,
-    getBalanceQuerySchema
+    getBalanceQuerySchema,
+    getHistoryQuerySchema
 } from "../validationSchemas/savingAccountsSchemas.js";
+
 
 class SavingAccountsController {
 
@@ -51,6 +54,21 @@ class SavingAccountsController {
             res.json(result);
         } catch (e) { next(e); }
     }
+
+    async getHistory(req, res, next) {
+        try {
+            const { accountId } = validate(getHistoryQuerySchema, req.query);
+            const history = getHistory(accountId);
+
+            if (history === null) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json(history);
+        } catch (e) { next(e); }
+    }
+
+
 
 
     async createAccount(req, res, next) {
@@ -96,3 +114,4 @@ export const createAccount = controller.createAccount.bind(controller);
 export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
+export const getHistory = controller.getHistory.bind(controller);
