@@ -30,7 +30,7 @@ export function getBalance(id) {
 export function getHistory(id) {
     const acc = savingAccounts.get(id);
     if (!acc) return null;
-    return acc.history;
+    return acc.history; // zatím []
 }
 
 export function createSavingAccount(data) {
@@ -55,7 +55,9 @@ export function transferToCurrent(savingId, currentAccount, amount) {
     const saving = savingAccounts.get(savingId);
     if (!saving) return null;
 
-    if (saving.balance < amount) return "INSUFFICIENT_FUNDS";
+    if (saving.balance < amount){
+        return "INSUFFICIENT_FUNDS";
+    }
 
     // odečíst
     saving.balance -= amount;

@@ -26,6 +26,14 @@ export const getHistory = (id) => {
     return savingAccounts.getHistory(id);
 }
 
+export const transferToCurrent = (savingId, currentId, amount) => {
+    const current = Accounts.findByIdForUser(currentId);
+    if(!current) return null;
+
+    return savingAccounts.transferToCurrent(savingId, amount);
+
+};
+
 
 /// Nebudou fungivat opravit
 export const updateSavingAccountById = (id, data) => {

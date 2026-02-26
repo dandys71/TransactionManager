@@ -27,3 +27,6 @@ router.get('/getBalance', SavingAccountsController.getBalance);
 
 //GET /v1/savingAccounts/getBalance
 router.get('/getHistory', SavingAccountsController.getHistory);
+
+//POST /v1/savingAccounts/transferToCurrent
+router.post("/transferToCurrent", SavingAccountsController.transferToCurrent);

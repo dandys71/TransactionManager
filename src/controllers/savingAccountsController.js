@@ -79,6 +79,31 @@ class SavingAccountsController {
         } catch (e) { next(e); }
     }
 
+    async transferToCurrent(req, res, next){
+        try {
+            const body = validate(transferToCurrentSchema, req.body);
+            const result = transferToCurrent(
+                body.savingAccountId,
+                body.currentAccountId,
+                body.amount
+            );
+            if (result === null) {
+                return res.status(404).json({ message: "Account not found"})
+            }
+
+            if (result === "Insufficient_FOUNDS") {
+                return res.status(400).json({ message: "Insufficient_FOUNDS" });
+
+            }
+
+            res.json({
+                message: "Transfer completed",
+                from: result.from,
+                to: result.to
+            })
+        } catch (e) { next(e); }
+    }
+
     async updateAccount(req, res, next) {
         try {
             const body = validate(updateSavingAccountSchema, req.body);
@@ -115,3 +140,4 @@ export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
+export const transferToCurrent = controller.transferToCurrent.bind(controller);
