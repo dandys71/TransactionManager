@@ -92,78 +92,84 @@ export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
 
 
+
+
+
+
+
+
 export const getTransactionById = async (req, res, next) => {
-  try {
-    const { transactionId } = req.query;
+    try {
+        const { transactionId } = req.query;
 
-    //hledání v DB
-    const transaction = await someDbSearch(transactionId);
+        //hledání v DB
+        const transaction = await someDbSearch(transactionId);
 
-    // CHYBA 404:
-    if (!transaction) {
-      return res.status(404).json({
-        code: "string",
-        message: "string"
-      });
+        // CHYBA 404:
+        if (!transaction) {
+            return res.status(404).json({
+                code: "string",
+                message: "string"
+            });
+        }
+
+        // ÚSPĚCH 200:
+        res.status(200).json({
+            transactionId: transaction.id,
+            accountId: transaction.accountId,
+            counterpartyAccount: transaction.counterpartyAccount,
+            amount: transaction.amount,
+            currency: transaction.currency,
+            direction: transaction.direction,
+            status: transaction.status,
+            vs: transaction.vs,
+            ks: transaction.ks,
+            ss: transaction.ss,
+            note: transaction.note,
+            createdAt: transaction.createdAt,
+            postedAt: transaction.postedAt
+        });
+
+    } catch (error) {
+        next(error);
     }
-
-    // ÚSPĚCH 200:
-    res.status(200).json({
-      transactionId: transaction.id,
-      accountId: transaction.accountId,
-      counterpartyAccount: transaction.counterpartyAccount,
-      amount: transaction.amount,
-      currency: transaction.currency,
-      direction: transaction.direction,
-      status: transaction.status,
-      vs: transaction.vs,
-      ks: transaction.ks,
-      ss: transaction.ss,
-      note: transaction.note,
-      createdAt: transaction.createdAt,
-      postedAt: transaction.postedAt
-    });
-
-  } catch (error) {
-    next(error);
-  }
 };
 
 
 export const listTransactions = async (req, res, next) => {
-  try {
-    // Extrahovane parametry z query zvalidované
-    const { accountId, page, pageSize } = req.query;
+    try {
+        // Extrahovane parametry z query zvalidované
+        const { accountId, page, pageSize } = req.query;
 
 // const { transactions, total } = await db.findTransactions(req.query); ?
 
 // USPECH 200:
-res.status(200).json({
-items: [
-  {
-    transactionId: "string",
-    accountId: "string",
-    counterpartyAccount: "string",
-    amount: 0,
-    currency: "string",
-    direction: "income",
-    status: "pending",
-    vs: "string",
-    ks: "string",
-    ss: "string",
-    note: "string",
-    createdAt: "2026-01-27T22:23:15.589Z",
-    postedAt: "2026-01-27T22:23:15.589Z"
-  }
-],
-  total: 0,
-  page: 0,
-  pageSize: 0,
-  });
+        res.status(200).json({
+            items: [
+                {
+                    transactionId: "string",
+                    accountId: "string",
+                    counterpartyAccount: "string",
+                    amount: 0,
+                    currency: "string",
+                    direction: "income",
+                    status: "pending",
+                    vs: "string",
+                    ks: "string",
+                    ss: "string",
+                    note: "string",
+                    createdAt: "2026-01-27T22:23:15.589Z",
+                    postedAt: "2026-01-27T22:23:15.589Z"
+                }
+            ],
+            total: 0,
+            page: 0,
+            pageSize: 0,
+        });
 
-  } catch (error) {
-    next(error);
-  }
+    } catch (error) {
+        next(error);
+    }
 };
 
 

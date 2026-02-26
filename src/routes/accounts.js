@@ -28,3 +28,4 @@ router.get('/getBalance', AccountsController.getBalance);
 
 // GET /v1/accounts/getHistory?accountId=...
 router.get('/getHistory', AccountsController.getHistory);
+

@@ -11,7 +11,7 @@ export const createTransaction = async (req, res, next) => {
             accountId: "string",
             counterpartyAccount: "string",
             amount: 0,
-            currency: "string", //model vytvořit
+            currency: "string",
             direction: "income",
             status: "pending",
             vs: "string",
