@@ -12,7 +12,7 @@ import { router as accountsRouter } from './routes/accounts.js';
 import { router as usersRouter } from './routes/users.js';
 import { router as healthRouter } from './routes/health.js';
 
-import savingAccountsRoutes from "./routes/savingAccounts.js";
+import {router as savingAccountsRoutes }from "./routes/savingAccounts.js";
 
 import { errorHandler } from './middlewares/errorHandler.js';
 

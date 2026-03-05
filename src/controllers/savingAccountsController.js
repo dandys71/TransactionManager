@@ -6,9 +6,9 @@ import {
     createSavingAccount,
     updateSavingAccountById,
     closeSavingAccountById,
-    getBalance,
-    getHistory,
-    transferToCurrent
+    getALLBalance,
+    getALLHistory,
+    transferALLToCurrent
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
@@ -47,7 +47,7 @@ class SavingAccountsController {
     async getBalance(req, res, next) {
         try {
             const {accountId} =validate(getBalanceQuerySchema, req.query);
-            const result = getBalance(accountId);
+            const result = getALLBalance(accountId);
 
             if (!result) {
                 return res.status(404).json({ message: "Saving balance not found" });
@@ -60,7 +60,7 @@ class SavingAccountsController {
     async getHistory(req, res, next) {
         try {
             const { accountId } = validate(getHistoryQuerySchema, req.query);
-            const history = getHistory(accountId);
+            const history = getALLHistory(accountId);
 
             if (history === null) {
                 return res.status(404).json({ message: "Saving account not found" });
@@ -84,7 +84,7 @@ class SavingAccountsController {
     async transferToCurrent(req, res, next){
         try {
             const body = validate(transferToCurrentSchema, req.body);
-            const result = transferToCurrent(
+            const result = transferALLToCurrent(
                 body.savingAccountId,
                 body.currentAccountId,
                 body.amount

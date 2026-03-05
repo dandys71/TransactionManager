@@ -19,14 +19,14 @@ export const createSavingAccount = (data) => {
     return newAccount;
 };
 
-export const getBalance = (id) => {
+export const getALLBalance = (id) => {
     return savingAccounts.getBalance(id);
 }
-export const getHistory = (id) => {
+export const getALLHistory = (id) => {
     return savingAccounts.getHistory(id);
 }
 
-export const transferToCurrent = (savingId, currentId, amount) => {
+export const transferALLToCurrent = (savingId, currentId, amount) => {
     const current = Accounts.findByIdForUser(currentId);
     if(!current) return null;
 
