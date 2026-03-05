@@ -1,4 +1,4 @@
-// src/routes/savingAccountsController.js
+// src/routes/savingAccounts.js
 
 import { Router } from 'express';
 import * as SavingAccountsController from '../controllers/savingAccountsController.js';
@@ -7,26 +7,26 @@ import { authMiddleware } from "../middlewares/auth.js";
 
 export const router = Router();
 
-// GET /v1/savingsAccounts/getAccountById?id=...
-router.get('/getAccountById', authMiddleware, SavingAccountsController.getAccountById);
+// GET /v1/savingsAccounts/getAccountById/:id
+router.get('/getAccountById/:id', authMiddleware, SavingAccountsController.getAccountById);
 
-// GET /v1/savingsAccounts/listAccounts?userId=...&page=1&pageSize=50
-router.get('/listAccounts', SavingAccountsController.listAccounts);
+// GET /v1/savingsAccounts/listAccounts
+router.get('/listAccounts', authMiddleware, SavingAccountsController.listAccounts);
 
 // POST /v1/savingsAccounts/createAccount
-router.post('/createAccount', SavingAccountsController.createAccount, allowRoles("admin", "boss"));
+router.post('/createAccount', allowRoles("admin", "boss"), SavingAccountsController.createAccount);
 
 // POST /v1/savingsAccounts/updateAccount
-router.post('/updateAccount', SavingAccountsController.updateAccount);
+router.post('/updateAccount', authMiddleware, SavingAccountsController.updateAccount);
 
 // POST /v1/savingsAccounts/closeAccount
-router.post('/closeAccount', SavingAccountsController.closeAccount);
+router.post('/closeAccount', authMiddleware, SavingAccountsController.closeAccount);
 
-//GET /v1/savingAccounts/getBalance
-router.get('/getBalance', SavingAccountsController.getBalance);
+// GET /v1/savingsAccounts/getBalance
+router.get('/getBalance', authMiddleware, SavingAccountsController.getBalance);
 
-//GET /v1/savingAccounts/getBalance
-router.get('/getHistory', SavingAccountsController.getHistory);
+// GET /v1/savingsAccounts/getHistory
+router.get('/getHistory', authMiddleware, SavingAccountsController.getHistory);
 
-//POST /v1/savingAccounts/transferToCurrent
-router.post("/transferToCurrent", SavingAccountsController.transferToCurrent);
+// POST /v1/savingsAccounts/transferToCurrent
+router.post("/transferToCurrent", authMiddleware, SavingAccountsController.transferToCurrent);

@@ -44,12 +44,42 @@ export function createSavingAccount(data) {
         balance: data.balance ?? 0,
         interestRate: data.interestRate ?? 0,
         createdAt,
+        isClosed: false,
         history: []
     };
 
     savingAccounts.set(id, account);
     return account;
 }
+
+export function updateSavingAccount(id, data) {
+    const existing = savingAccounts.get(id);
+    if (!existing) return null;
+
+    const updated= {
+        ...existing,
+        ...data,
+        id: existing.id,
+        createAt: existing.createAt,
+    };
+
+    savingAccounts.set(id, updated);
+    return updated;
+}
+
+
+
+export function closeSavingAccountById(id) {
+    const existing = savingAccounts.get(id);
+    if (!existing) return null;
+
+    existing.isClosed = true;
+    existing.closedAt = new Date().toISOString();
+
+    savingAccounts.set(id, existing);
+    return existing;
+}
+
 
 export function transferToCurrent(savingId, currentAccount, amount) {
     const saving = savingAccounts.get(savingId);
@@ -73,7 +103,7 @@ export function transferToCurrent(savingId, currentAccount, amount) {
         type: "transfer-out",
         amount,
         date: new Date().toISOString(),
-        to: currentAccount.accountId
+        to: currentAccount.id
     });
 
     return {
