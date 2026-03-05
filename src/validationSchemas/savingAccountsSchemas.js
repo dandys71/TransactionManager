@@ -22,11 +22,11 @@ export const closeSavingAccountSchema = z.object({
 });
 
 export const getBalanceQuerySchema = z.object({
-    id: z.string(),
+    accountid: z.string(),
 });
 
 export const getHistoryQuerySchema = z.object({
-    id: z.string(),
+    accountid: z.string(),
 })
 
 export const transferToCurrentSchema= z.object({
