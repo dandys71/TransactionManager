@@ -1,9 +1,11 @@
-import {Router} from "express";
-import * as StandingController from '../controllers/standingOrderController.js';
-
+import { Router } from "express";
+import * as StandingController from "../controllers/standingOrderController.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 export const router = Router();
 
-router.get('/createStandingOrder', StandingController.getStandingOrderById);
 
-router.post('/createStandingOrder', StandingController.createStandingOrder);
+
+// POST /v1/standingOrders/createStandingOrder
+router.post("/createStandingOrder", authMiddleware, StandingController.createStandingOrder
+);

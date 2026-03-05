@@ -1,5 +1,18 @@
+
+import * as standingOService from '../services/standingOrderService.js';
+import {validate} from "../services/validationService.js";
+import * as ValidationSchemas from "../config/validationSchemas.js";
+import * as AccountsService from "../services/accountsService.js";
+
 class StandingOrderController {
 
+    async createStandingOrder(req, res, next) {
+        try {
+            const body = validate(ValidationSchemas.createStandingOrder, req.body);
+            const created = await AccountsService.createAccount(body, req.user);
+            res.status(201).json(created);
+        } catch (e) { next(e); }
+    }
     async getStandingOrderById(req, res, next) {
         try {
             const q = validate(ValidationSchemas.accountIdQuerySchema, req.query);
@@ -10,9 +23,7 @@ class StandingOrderController {
             next(e);
         }
     }
-     async createStandingOrder(req, res, next) {
 
-     }
 
 
 }
