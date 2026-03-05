@@ -7,7 +7,8 @@ import {
     updateSavingAccountById,
     closeSavingAccountById,
     getBalance,
-    getHistory
+    getHistory,
+    transferToCurrent
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
@@ -16,7 +17,8 @@ import {
     updateSavingAccountSchema,
     closeSavingAccountSchema,
     getBalanceQuerySchema,
-    getHistoryQuerySchema
+    getHistoryQuerySchema,
+    transferToCurrentSchema
 } from "../validationSchemas/savingAccountsSchemas.js";
 
 
@@ -44,7 +46,7 @@ class SavingAccountsController {
 
     async getBalance(req, res, next) {
         try {
-            const {accountId} =validate(getBalanceQuerySchema, req.body);
+            const {accountId} =validate(getBalanceQuerySchema, req.query);
             const result = getBalance(accountId);
 
             if (!result) {
@@ -91,8 +93,8 @@ class SavingAccountsController {
                 return res.status(404).json({ message: "Account not found"})
             }
 
-            if (result === "Insufficient_FOUNDS") {
-                return res.status(400).json({ message: "Insufficient_FOUNDS" });
+            if (result === "INSUFFICIENT_FUNDS") {
+                return res.status(400).json({ message: "INSUFFICIENT_FUNDS" });
 
             }
 
