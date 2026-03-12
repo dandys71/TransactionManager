@@ -7,5 +7,4 @@ export const router = Router();
 
 
 // POST /v1/standingOrders/createStandingOrder
-router.post("/createStandingOrder", authMiddleware, StandingController.createStandingOrder
-);
+router.post("/createStandingOrder", StandingController.createStandingOrder);

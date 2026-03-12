@@ -1,15 +1,16 @@
 
-import * as standingOService from '../services/standingOrderService.js';
+import * as StandingOrderService from '../services/standingOrderService.js';
 import {validate} from "../services/validationService.js";
-import * as ValidationSchemas from "../config/validationSchemas.js";
-import * as AccountsService from "../services/accountsService.js";
+import * as StandingOrderSchema from "../validationSchemas/standingOrderSchemas.js"
+import {StandingOrder} from "../models/standingOrder.js";
+
 
 class StandingOrderController {
 
     async createStandingOrder(req, res, next) {
         try {
-            const body = validate(ValidationSchemas.createStandingOrder, req.body);
-            const created = await AccountsService.createAccount(body, req.user);
+            const body = validate(StandingOrderSchema.createStandingOrder, req.body);
+            const created = await StandingOrderService.createStandingOrder(body);
             res.status(201).json(created);
         } catch (e) { next(e); }
     }
