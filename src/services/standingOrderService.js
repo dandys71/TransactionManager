@@ -4,12 +4,16 @@ import { StandingOrder } from '../models/standingOrder.js';
 //Normální funkce vrací hodnotu hned.
 //Async funkce vrací Promise (slib), protože dělá něco „na pozadí“ (čeká na síť/DB/časovač).
 //Pokud chceme počkat na výsledek, musíme tam, kde funkci voláme použít před konkrétní funkcí klíčové slovo await
-export async function getAccountById(accountId, user) {
-    return 0;
-    //todo
+export async function getStandingOrderById(standingOrderId) {
+    return StandingOrder.get(standingOrderId);
+
+}
+export async function updateStandingOrder(standingOrder) {
+    return StandingOrder.update(standingOrder);
 }
 
 export async function createStandingOrder(standingOrder) {
     return StandingOrder.create(standingOrder);
+
 }
 
