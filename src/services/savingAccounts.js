@@ -7,6 +7,10 @@ export const getAllSavingAccounts = () => {
     return savingAccounts.getAllSavingAccounts();
 };
 
+export const getAllInterestSettings = () => {
+    return savingAccounts.getInterestSettings();
+}
+
 export const getSavingAccountById = (id) =>
     savingAccounts.find(acc => acc.id === id);
 

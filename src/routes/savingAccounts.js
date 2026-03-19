@@ -30,3 +30,6 @@ router.get('/getHistory', /*authMiddleware,*/ SavingAccountsController.getHistor
 
 // POST /v1/savingsAccounts/transferToCurrent
 router.post("/transferToCurrent", /*authMiddleware,*/ SavingAccountsController.transferToCurrent);
+
+// GET /v1/savingsAccounts/getInterestSettings
+router.get('/getInterestSettings', SavingAccountsController.getInterestSettings);

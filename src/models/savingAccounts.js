@@ -27,6 +27,14 @@ export function getAllSavingAccounts() {
     return Array.from(savingAccounts.values());
 }
 
+//Úrokové nastavení (zatím jen globální)
+export const interestSettings = {
+    globalRate: 1.8
+};
+export function getInterestSettings() {
+    return interestSettings;
+}
+
 export function findIndex(predicate) {
     let index = 0;
     for (const acc of savingAccounts.values()) {

@@ -8,7 +8,8 @@ import {
     closeSavingAccountById,
     getALLBalance,
     getALLHistory,
-    transferALLToCurrent
+    transferALLToCurrent,
+    getAllInterestSettings
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
@@ -106,6 +107,13 @@ class SavingAccountsController {
         } catch (e) { next(e); }
     }
 
+    async getInterestSettings(req, res, next) {
+        try {
+            const settings = getAllInterestSettings();
+            res.json(settings);
+        } catch (e) { next(e); }
+    }
+
     async updateAccount(req, res, next) {
         try {
             const body = validate(updateSavingAccountSchema, req.body);
@@ -143,3 +151,4 @@ export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
 export const transferToCurrent = controller.transferToCurrent.bind(controller);
+export const getInterestSettings = controller.getInterestSettings.bind(controller);
