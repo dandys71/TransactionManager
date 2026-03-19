@@ -46,8 +46,8 @@ class SavingAccountsController {
 
     async getBalance(req, res, next) {
         try {
-            const {accountId} =validate(getBalanceQuerySchema, req.query);
-            const result = getALLBalance(accountId);
+            const {accountid} =validate(getBalanceQuerySchema, req.query);
+            const result = getALLBalance(accountid);
 
             if (!result) {
                 return res.status(404).json({ message: "Saving balance not found" });
@@ -59,8 +59,8 @@ class SavingAccountsController {
 
     async getHistory(req, res, next) {
         try {
-            const { accountId } = validate(getHistoryQuerySchema, req.query);
-            const history = getALLHistory(accountId);
+            const { accountid } = validate(getHistoryQuerySchema, req.query);
+            const history = getALLHistory(accountid);
 
             if (history === null) {
                 return res.status(404).json({ message: "Saving account not found" });

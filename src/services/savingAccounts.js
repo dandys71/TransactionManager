@@ -3,7 +3,9 @@
 import * as savingAccounts from "../models/savingAccounts.js";
 import crypto from 'crypto'; //toto se používá jen na generování náhodného ID pro uživatele
 
-export const getAllSavingAccounts = () => savingAccounts;
+export const getAllSavingAccounts = () => {
+    return savingAccounts.getAllSavingAccounts();
+};
 
 export const getSavingAccountById = (id) =>
     savingAccounts.find(acc => acc.id === id);
@@ -35,18 +37,8 @@ export const transferALLToCurrent = (savingId, currentId, amount) => {
 };
 
 
-/// Nebudou fungivat opravit
 export const updateSavingAccountById = (id, data) => {
-    const index = savingAccounts.findIndex(acc => acc.id === id);
-    if (index === -1) return null;
-
-    savingAccounts[index] = {
-        ...savingAccounts[index],
-        ...data,
-        updatedAt: new Date().toISOString()
-    };
-
-    return savingAccounts[index];
+    return savingAccounts.updateSavingAccount(id, data);
 };
 
 export const closeSavingAccountById = (id) => {

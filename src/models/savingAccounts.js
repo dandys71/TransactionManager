@@ -21,6 +21,30 @@ const savingAccounts = new Map([
     }]
 ]);
 
+
+
+export function getAllSavingAccounts() {
+    return Array.from(savingAccounts.values());
+}
+
+export function findIndex(predicate) {
+    let index = 0;
+    for (const acc of savingAccounts.values()) {
+        if (predicate(acc)) {
+            return index;
+        }
+        index++;
+    }
+    return -1;
+}
+export function find(predicate) {
+    for (const acc of savingAccounts.values()) {
+        if (predicate(acc)) {
+            return acc;
+        }
+    }
+    return null;
+}
 export function getBalance(id) {
     const acc = savingAccounts.get(id);
     if (!acc) return null;
