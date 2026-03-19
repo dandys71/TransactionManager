@@ -29,10 +29,10 @@ export const getALLHistory = (id) => {
 }
 
 export const transferALLToCurrent = (savingId, currentId, amount) => {
-    const current = Accounts.findByIdForUser(currentId);
+    const current = savingAccounts.transferToCurrent(savingId, amount);
     if(!current) return null;
 
-    return savingAccounts.transferToCurrent(savingId, amount);
+    return current;
 
 };
 

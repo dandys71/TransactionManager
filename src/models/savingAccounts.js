@@ -115,9 +115,7 @@ export function transferToCurrent(savingId, currentAccount, amount) {
 
     // odečíst
     saving.balance -= amount;
-
-    // přičíst
-    currentAccount.balance += amount;
+//todo uložit na účet
 
     // uložit zpět
     savingAccounts.set(savingId, saving);
