@@ -44,3 +44,11 @@ export const updateInterestRateSchema = z.object({
     interestRate: z.number().positive()
 });
 
+export const applyInterestSchema = z.object({
+    institutionId: z.string(),
+    accountId: z.string(),
+    asOf: z.string().date(), // nebo z.string() pokud nechceš validovat formát
+    mode: z.enum(["dryRun", "execute"])
+});
+
+

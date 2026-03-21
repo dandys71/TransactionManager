@@ -35,4 +35,8 @@ router.post("/transferToCurrent", /*authMiddleware,*/ SavingAccountsController.t
 // GET /v1/savingsAccounts/getInterestSettings
 router.get('/InterestSettings', SavingAccountsController.getInterestSettings);
 
+// POST /v1/savingsAccounts/updateInterestRate
 router.post('/updateInterestRate', SavingAccountsController.updateInterestRate);
+
+// POST /v1/savingsAccount/applyInterest
+router.post('/applyInterest', SavingAccountsController.applyInterest);

@@ -57,3 +57,7 @@ export const closeSavingAccountById = (id) => {
     return account;
 };
 
+export const applyInterest = (institutionId, accountId, asOf, mode) => {
+    return savingAccounts.applyInterest(institutionId, accountId, asOf, mode);
+};
+

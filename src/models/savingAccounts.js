@@ -27,16 +27,6 @@ export function getAllSavingAccounts() {
     return Array.from(savingAccounts.values());
 }
 
-export function findIndex(predicate) {
-    let index = 0;
-    for (const acc of savingAccounts.values()) {
-        if (predicate(acc)) {
-            return index;
-        }
-        index++;
-    }
-    return -1;
-}
 export function find(predicate) {
     for (const acc of savingAccounts.values()) {
         if (predicate(acc)) {
@@ -97,6 +87,29 @@ export function updateSavingAccount(id, data) {
     return updated;
 }
 
+export function applyInterest(institutionId, accountId, asOf, mode) {
+    const acc = savingAccounts.get(accountId);
+    if (!acc) return null;
+
+    const interestRate = acc.interestRate / 100;
+    const balance = acc.balance;
+
+    const interest = balance * interestRate;
+
+    if (mode === "execute") {
+        acc.balance += interest;
+        acc.lastInterestAppliedAt = asOf;
+        savingAccounts.set(accountId, acc);
+    }
+
+    return {
+        institutionId,
+        accountId,
+        asOf,
+        interest,
+        newBalance: mode === "execute" ? acc.balance : balance
+    };
+}
 
 export function transferToCurrent(savingId, currentAccount, amount) {
     const saving = savingAccounts.get(savingId);

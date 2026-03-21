@@ -10,7 +10,8 @@ import {
     getALLHistory,
     transferALLToCurrent,
     getInterestSettings as getInterestSettingsService,
-    updateInterestRate as updateInterestRateService
+    updateInterestRate as updateInterestRateService,
+    applyInterest as applyInterestService
 
 } from "../services/savingAccounts.js";
 
@@ -23,7 +24,8 @@ import {
     getHistoryQuerySchema,
     transferToCurrentSchema,
     getInterestSettingsSchema,
-    updateInterestRateSchema
+    updateInterestRateSchema,
+    applyInterestSchema
 } from "../validationSchemas/savingAccountsSchemas.js";
 
 
@@ -166,6 +168,21 @@ class SavingAccountsController {
             res.json({ message: "Account closed", account: closed });
         } catch (e) { next(e); }
     }
+    async applyInterest(req, res, next) {
+        try {
+            const { institutionId, accountId, asOf, mode } =
+                validate(applyInterestSchema, req.body);
+
+            const result = applyInterestService(institutionId, accountId, asOf, mode);
+
+            if (!result) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json(result);
+        } catch (e) { next(e); }
+    }
+
 }
 
 const controller = new SavingAccountsController();
@@ -180,3 +197,4 @@ export const getHistory = controller.getHistory.bind(controller);
 export const transferToCurrent = controller.transferToCurrent.bind(controller);
 export const getInterestSettings = controller.getInterestSettings.bind(controller);
 export const updateInterestRate = controller.updateInterestRate.bind(controller);
+export const applyInterest = controller.applyInterest.bind(controller);
