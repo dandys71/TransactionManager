@@ -27,14 +27,6 @@ export function getAllSavingAccounts() {
     return Array.from(savingAccounts.values());
 }
 
-//Úrokové nastavení (zatím jen globální)
-export const interestSettings = {
-    globalRate: 1.8
-};
-export function getInterestSettings() {
-    return interestSettings;
-}
-
 export function findIndex(predicate) {
     let index = 0;
     for (const acc of savingAccounts.values()) {
@@ -63,6 +55,12 @@ export function getHistory(id) {
     const acc = savingAccounts.get(id);
     if (!acc) return null;
     return acc.history; // zatím []
+}
+
+export function getInterestSettings(id) {
+    const acc = savingAccounts.get(id);
+    if (!acc) return null;
+    return { id: acc.id, interestRate: acc.interestRate };
 }
 
 export function createSavingAccount(data) {
@@ -97,19 +95,6 @@ export function updateSavingAccount(id, data) {
 
     savingAccounts.set(id, updated);
     return updated;
-}
-
-
-
-export function closeSavingAccountById(id) {
-    const existing = savingAccounts.get(id);
-    if (!existing) return null;
-
-    existing.isClosed = true;
-    existing.closedAt = new Date().toISOString();
-
-    savingAccounts.set(id, existing);
-    return existing;
 }
 
 

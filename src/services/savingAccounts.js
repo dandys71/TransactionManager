@@ -7,9 +7,6 @@ export const getAllSavingAccounts = () => {
     return savingAccounts.getAllSavingAccounts();
 };
 
-export const getAllInterestSettings = () => {
-    return savingAccounts.getInterestSettings();
-}
 
 export const getSavingAccountById = (id) =>
     savingAccounts.find(acc => acc.id === id);
@@ -32,6 +29,10 @@ export const getALLHistory = (id) => {
     return savingAccounts.getHistory(id);
 }
 
+export const getInterestSettings = (id) => {
+    return savingAccounts.getInterestSettings(id);
+};
+
 export const transferALLToCurrent = (savingId, currentId, amount) => {
     const current = savingAccounts.transferToCurrent(savingId, amount);
     if(!current) return null;
@@ -39,7 +40,9 @@ export const transferALLToCurrent = (savingId, currentId, amount) => {
     return current;
 
 };
-
+export const updateInterestRate = (id, interestRate) => {
+    return savingAccounts.updateSavingAccount(id, { interestRate });
+};
 
 export const updateSavingAccountById = (id, data) => {
     return savingAccounts.updateSavingAccount(id, data);

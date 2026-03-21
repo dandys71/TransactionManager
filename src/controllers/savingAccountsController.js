@@ -9,7 +9,9 @@ import {
     getALLBalance,
     getALLHistory,
     transferALLToCurrent,
-    getAllInterestSettings
+    getInterestSettings as getInterestSettingsService,
+    updateInterestRate as updateInterestRateService
+
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
@@ -19,7 +21,9 @@ import {
     closeSavingAccountSchema,
     getBalanceQuerySchema,
     getHistoryQuerySchema,
-    transferToCurrentSchema
+    transferToCurrentSchema,
+    getInterestSettingsSchema,
+    updateInterestRateSchema
 } from "../validationSchemas/savingAccountsSchemas.js";
 
 
@@ -70,6 +74,20 @@ class SavingAccountsController {
             res.json(history);
         } catch (e) { next(e); }
     }
+    async getInterestSettings(req, res, next) {
+        try {
+            const { id } = validate(getInterestSettingsSchema, req.query);
+
+            const settings = getInterestSettingsService(id);
+
+            if (!settings) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json(settings);
+        } catch (e) { next(e); }
+    }
+
 
 
 
@@ -107,13 +125,6 @@ class SavingAccountsController {
         } catch (e) { next(e); }
     }
 
-    async getInterestSettings(req, res, next) {
-        try {
-            const settings = getAllInterestSettings();
-            res.json(settings);
-        } catch (e) { next(e); }
-    }
-
     async updateAccount(req, res, next) {
         try {
             const body = validate(updateSavingAccountSchema, req.body);
@@ -124,6 +135,22 @@ class SavingAccountsController {
             }
 
             res.json(updated);
+        } catch (e) { next(e); }
+    }
+    async updateInterestRate(req, res, next) {
+        try {
+            const body = validate(updateInterestRateSchema, req.body);
+
+            const updated = updateInterestRateService(body.id, body.interestRate);
+
+            if (!updated) {
+                return res.status(404).json({ message: "Saving account not found" });
+            }
+
+            res.json({
+                message: "Interest rate updated",
+                account: updated
+            });
         } catch (e) { next(e); }
     }
 
@@ -152,3 +179,4 @@ export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
 export const transferToCurrent = controller.transferToCurrent.bind(controller);
 export const getInterestSettings = controller.getInterestSettings.bind(controller);
+export const updateInterestRate = controller.updateInterestRate.bind(controller);

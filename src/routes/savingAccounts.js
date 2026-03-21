@@ -2,6 +2,7 @@
 
 import { Router } from 'express';
 import * as SavingAccountsController from '../controllers/savingAccountsController.js';
+
 //import { allowRoles } from "../middlewares/roles.js";
 //import { authMiddleware } from "../middlewares/auth.js";
 
@@ -32,4 +33,6 @@ router.get('/getHistory', /*authMiddleware,*/ SavingAccountsController.getHistor
 router.post("/transferToCurrent", /*authMiddleware,*/ SavingAccountsController.transferToCurrent);
 
 // GET /v1/savingsAccounts/getInterestSettings
-router.get('/getInterestSettings', SavingAccountsController.getInterestSettings);
+router.get('/InterestSettings', SavingAccountsController.getInterestSettings);
+
+router.post('/updateInterestRate', SavingAccountsController.updateInterestRate);
