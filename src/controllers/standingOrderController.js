@@ -31,14 +31,22 @@ class StandingOrderController {
             res.status(201).json(updated);
         } catch (e) { next(e); }
     }
+    async deleteStandingOrder(req, res, next) {
+        try {
+            const body = validate(StandingOrderSchema.deleteStandingOrder, req.body);
+            const deleted = await StandingOrderService.deleteStandingOrder(body.standingOrderId);
 
-
+            if (!deleted) return res.status(404).json({error: 'Not Found'});
+            res.status(200).json(deleted);
+        } catch (e) { next(e); }
+    }
 
 }
 
 const controller = new StandingOrderController();
 
-
 export const getStandingOrderById = controller.getStandingOrderById.bind(controller);
 export const createStandingOrder = controller.createStandingOrder.bind(controller);
+export const updateStandingOrder = controller.updateStandingOrder.bind(controller);
+export const deleteStandingOrder = controller.deleteStandingOrder.bind(controller);
 

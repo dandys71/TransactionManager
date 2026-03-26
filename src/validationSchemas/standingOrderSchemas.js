@@ -27,3 +27,7 @@ export const updateStandingOrder = z.object({
     nextRunAt: z.string(),
     active: z.boolean(),
 })
+
+export const deleteStandingOrder = z.object( {
+    standingOrderId: z.string()
+});

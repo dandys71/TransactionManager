@@ -11,6 +11,9 @@ export async function getStandingOrderById(standingOrderId) {
 export async function updateStandingOrder(standingOrder) {
     return StandingOrder.update(standingOrder);
 }
+export async function deleteStandingOrder(standingOrderId) {
+    return StandingOrder.delete(standingOrderId);
+}
 
 export async function createStandingOrder(standingOrder) {
     return StandingOrder.create(standingOrder);
