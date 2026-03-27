@@ -1,43 +1,31 @@
 import { z } from 'zod';
 
-
-// POST /createTransaction
 export const createTransactionBodySchema = z.object({
-    fromAccountId: "string",
-    toAccountNumber: "string",
-    amount: 0,
-    currency: "CZK",
-    vs: "string",
-    ks: "string",
-    ss: "string",
-    note: "string",
-    scheduleAt: "2026-02-11T22:02:30.593Z"
+    fromAccountId: z.string(),
+    toAccountNumber: z.string(),
+    amount: z.number().positive(),
+    currency: z.string().length(3).default('CZK'),
+    vs: z.string().optional(),
+    ks: z.string().optional(),
+    ss: z.string().optional(),
+    note: z.string().optional()
 });
 
-
-// POST /createInternalTransfer
 export const createInternalTransferBodySchema = z.object({
-    fromAccountId: "string",
-    toAccountId: "string",
-    amount: 0,
-    note: "string"
+    fromAccountId: z.string(),
+    toAccountId: z.string(), // Pozor, tady je "toAccountId", ne "AccountNumber"
+    amount: z.number().positive(),
+    currency: z.string().length(3).default('CZK'),
+    note: z.string().optional()
 });
 
-
-// GET /getTransactionById
-// (parametry v URL)
-export const getTransactionByIdQuerySchema = z.object({
-    transactionId: z.string({ required_error: "transactionId povinný údaj" })
+export const getTransactionByIdSchema = z.object({
+    transactionId: z.string().min(1, "ID transakce je povinné")
 });
 
-
-// GET /listTransactions
-export const listTransactionsQuerySchema = z.object({
+// Jen jako ukázka v src/validationSchemas/transactionSchema.js
+export const listTransactionsSchema = z.object({
     accountId: z.string().optional(),
-    institutionId: z.string().optional(),
-    userId: z.string().optional(),
-    dateFrom: z.string().optional(),
-    dateTo: z.string().optional(),
-    page: z.coerce.number().int().min(1).default(1),
-    pageSize: z.coerce.number().int().min(1).max(200).default(50)
+    page: z.number().default(1),
+    pageSize: z.number().default(50)
 });

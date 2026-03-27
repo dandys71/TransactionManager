@@ -1,90 +1,30 @@
-// POST /createTransaction
-import * as ValidationSchemas from "../validationSchemas/transactionSchema.js";
-import { validate } from '../services/validationService.js';
-
 export const createTransaction = async (req, res, next) => {
     try {
-        const q = validate(ValidationSchemas.createTransactionBodySchema);
-        // Data, která vracíme (přesně podle tvého JSONu)
-        const responseData = {
-            transactionId: "string",
-            accountId: "string",
-            counterpartyAccount: "string",
-            amount: 0,
-            currency: "string",
-            direction: "income",
-            status: "pending",
-            vs: "string",
-            ks: "string",
-            ss: "string",
-            note: "string",
-            createdAt: "2026-02-11T22:02:30.599Z",
-            postedAt: "2026-02-11T22:02:30.599Z"
-        };
+        const data = req.body;
 
-        // Tady to pošleme zpátky s kódem 201 (Created)
-        res.status(201).json(responseData);
-
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-
-// POST /createInternalTransfer
-export const createInternalTransfer = async (req, res, next) => {
-    try {
-        // Vracíme objekt přesně podle tvého zadání
-        res.status(201).json({
-            transactionId: "string",
-            accountId: "string",
-            counterpartyAccount: "string",
-            amount: 0,
-            currency: "string",
-            direction: "income",
-            status: "pending",
-            vs: "string",
-            ks: "string",
-            ss: "string",
-            note: "string",
-            createdAt: "2026-02-11T22:31:57.419Z",
-            postedAt: "2026-02-11T22:31:57.419Z"
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-// GET /getTransactionById
-export const getTransactionById = async (req, res, next) => {
-    try {
-        const { transactionId } = req.query;
-
-        // if "null" nebo "0" => 404
-        if (transactionId === "null" || transactionId === "0") {
-            return res.status(404).json({
-                code: "TRANSACTION_NOT_FOUND",
-                message: "Transakce s tímto ID nebyla nalezena."
+        // RUČNÍ VALIDACE (místo knihovny Joi)
+        // Zkontrolujeme, jestli nám nechybí povinná pole
+        if (!data.fromAccountId || !data.toAccountNumber || !data.amount) {
+            return res.status(400).json({
+                status: "error",
+                message: "Chybí povinné údaje: fromAccountId, toAccountNumber nebo amount."
             });
         }
 
-        // jinak vrácení úspěch
-        res.status(200).json({
-            transactionId: "string",
-            accountId: "string",
-            counterpartyAccount: "string",
-            amount: 0,
-            currency: "string",
-            direction: "income",
-            status: "pending",
-            vs: "string",
-            ks: "string",
-            ss: "string",
-            note: "string",
-            createdAt: "2026-02-11T22:39:58.414Z",
-            postedAt: "2026-02-11T22:39:58.414Z"
+        // Zkontrolujeme, jestli je částka číslo a jestli je kladná
+        if (typeof data.amount !== 'number' || data.amount <= 0) {
+            return res.status(400).json({
+                status: "error",
+                message: "Částka musí být kladné číslo."
+            });
+        }
+
+        // Pokud je vše v pořádku, vrátíme úspěch
+        res.status(201).json({
+            status: "success",
+            message: "Transakce vytvořena",
+            transactionId: "TXN-" + Date.now(), // jednoduché ID pomocí času
+            receivedData: data
         });
 
     } catch (error) {
@@ -92,34 +32,92 @@ export const getTransactionById = async (req, res, next) => {
     }
 };
 
+export const createInternalTransfer = async (req, res, next) => {
+    try {
+        const { fromAccountId, toAccountId, amount, currency } = req.body;
 
-// GET /listTransactions
+        // 1. Základní kontrola polí
+        if (!fromAccountId || !toAccountId || !amount) {
+            return res.status(400).json({ status: "error", message: "Chybí údaje pro převod." });
+        }
+
+        // 2. Kontrola, aby to nebyl stejný účet
+        if (fromAccountId === toAccountId) {
+            return res.status(400).json({
+                status: "error",
+                message: "Nelze poslat peníze na stejný účet."
+            });
+        }
+
+        // 3. Úspěšná odpověď
+        res.status(201).json({
+            status: "success",
+            message: "Interní převod byl úspěšně zadán",
+            data: { fromAccountId, toAccountId, amount, currency: currency || 'CZK' }
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const getTransactionById = async (req, res, next) => {
+    try {
+        // Query parametry vytáhneme z req.query (ne z req.body!)
+        const { transactionId } = req.query;
+
+        if (!transactionId) {
+            return res.status(400).json({
+                status: "error",
+                message: "Chybí transactionId v parametrech."
+            });
+        }
+
+        // Tady jen simulujeme, že vracíme data ze screenshotu
+        res.status(200).json({
+            transactionId: transactionId,
+            accountId: "ACC-999",
+            counterpartyAccount: "CZ1234567890",
+            amount: 1500,
+            currency: "CZK",
+            direction: "income",
+            status: "pending",
+            vs: "2026001",
+            note: "Platba za obed",
+            createdAt: new Date().toISOString()
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 export const listTransactions = async (req, res, next) => {
     try {
-        const { page, pageSize } = req.query;
+        // Vytáhneme si filtry z query (pro tebe teď nepovinné, ale připravené)
+        const { accountId, page = 1, pageSize = 50 } = req.query;
 
-        // Simulujeme seznam s jednou transakcí, aby to vypadalo jako na obrázku
+        // Simulujeme pole transakcí (vracíme seznam s jednou ukázkovou transakcí)
         res.status(200).json({
             items: [
                 {
-                    transactionId: "string",
-                    accountId: "string",
-                    counterpartyAccount: "string",
-                    amount: 0,
-                    currency: "string",
-                    direction: "income",
-                    status: "pending",
-                    vs: "string",
-                    ks: "string",
-                    ss: "string",
-                    note: "string",
-                    createdAt: "2026-02-11T22:47:27.882Z",
-                    postedAt: "2026-02-11T22:47:27.882Z"
+                    transactionId: "TXN-001",
+                    accountId: accountId || "ACC-DEFAULT",
+                    counterpartyAccount: "CZ987654321",
+                    amount: 500,
+                    currency: "CZK",
+                    direction: "outcome",
+                    status: "completed",
+                    vs: "111222",
+                    ks: "0308",
+                    ss: "",
+                    note: "Platba kartou - Supermarket",
+                    createdAt: "2026-03-27T21:31:58.262Z",
+                    postedAt: "2026-03-27T21:31:58.262Z"
                 }
             ],
-            total: 0,
-            page: 0,
-            pageSize: 0
+            total: 1,
+            page: Number(page),
+            pageSize: Number(pageSize)
         });
     } catch (error) {
         next(error);
