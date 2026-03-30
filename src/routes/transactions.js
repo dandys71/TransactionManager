@@ -10,7 +10,10 @@ router.post("/createInternalTransfer", transactionsController.createInternalTran
 
 router.get("/getTransactionById", transactionsController.getTransactionById);
 
-router.get("/listTraansactions", transactionsController.listTransactions);
+router.get("/listTransactions", transactionsController.listTransactions);
+
+router.post("/refundTransaction", transactionsController.refundTransaction);
+
 
 
 

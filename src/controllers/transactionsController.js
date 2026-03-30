@@ -1,47 +1,44 @@
+import * as schemas from '../validationSchemas/transactionSchema.js';
+
+// [POST] createTransaction
 export const createTransaction = async (req, res, next) => {
     try {
-        const data = req.body;
+        // Použijeme safeParse, aby nám to nesestřelilo server
+        const validation = schemas.createTransactionBodySchema.safeParse(req.body);
 
-        // RUČNÍ VALIDACE (místo knihovny Joi)
-        // Zkontrolujeme, jestli nám nechybí povinná pole
-        if (!data.fromAccountId || !data.toAccountNumber || !data.amount) {
+        if (!validation.success) {
             return res.status(400).json({
                 status: "error",
-                message: "Chybí povinné údaje: fromAccountId, toAccountNumber nebo amount."
+                message: "Neplatná data transakce",
+                errors: validation.error.format() // Vypíše přesně, co je špatně
             });
         }
 
-        // Zkontrolujeme, jestli je částka číslo a jestli je kladná
-        if (typeof data.amount !== 'number' || data.amount <= 0) {
-            return res.status(400).json({
-                status: "error",
-                message: "Částka musí být kladné číslo."
-            });
-        }
+        const data = validation.data;
 
-        // Pokud je vše v pořádku, vrátíme úspěch
         res.status(201).json({
             status: "success",
             message: "Transakce vytvořena",
-            transactionId: "TXN-" + Date.now(), // jednoduché ID pomocí času
+            transactionId: "TXN-" + Date.now(),
             receivedData: data
         });
-
     } catch (error) {
         next(error);
     }
 };
 
+// [POST] createInternalTransfer
 export const createInternalTransfer = async (req, res, next) => {
     try {
-        const { fromAccountId, toAccountId, amount, currency } = req.body;
+        const validation = schemas.createInternalTransferBodySchema.safeParse(req.body);
 
-        // 1. Základní kontrola polí
-        if (!fromAccountId || !toAccountId || !amount) {
-            return res.status(400).json({ status: "error", message: "Chybí údaje pro převod." });
+        if (!validation.success) {
+            return res.status(400).json({ status: "error", errors: validation.error.format() });
         }
 
-        // 2. Kontrola, aby to nebyl stejný účet
+        const { fromAccountId, toAccountId, amount, currency } = validation.data;
+
+        // Tuhle logiku si necháme, tu Zod sám nepozná (že jsou stejné)
         if (fromAccountId === toAccountId) {
             return res.status(400).json({
                 status: "error",
@@ -49,7 +46,6 @@ export const createInternalTransfer = async (req, res, next) => {
             });
         }
 
-        // 3. Úspěšná odpověď
         res.status(201).json({
             status: "success",
             message: "Interní převod byl úspěšně zadán",
@@ -60,29 +56,24 @@ export const createInternalTransfer = async (req, res, next) => {
     }
 };
 
+// [GET] getTransactionById
 export const getTransactionById = async (req, res, next) => {
     try {
-        // Query parametry vytáhneme z req.query (ne z req.body!)
-        const { transactionId } = req.query;
+        // U GETu validujeme req.query
+        const validation = schemas.getTransactionByIdSchema.safeParse(req.query);
 
-        if (!transactionId) {
-            return res.status(400).json({
-                status: "error",
-                message: "Chybí transactionId v parametrech."
-            });
+        if (!validation.success) {
+            return res.status(400).json({ status: "error", errors: validation.error.format() });
         }
 
-        // Tady jen simulujeme, že vracíme data ze screenshotu
+        const { transactionId } = validation.data;
+
         res.status(200).json({
             transactionId: transactionId,
             accountId: "ACC-999",
-            counterpartyAccount: "CZ1234567890",
             amount: 1500,
             currency: "CZK",
-            direction: "income",
             status: "pending",
-            vs: "2026001",
-            note: "Platba za obed",
             createdAt: new Date().toISOString()
         });
     } catch (error) {
@@ -90,34 +81,53 @@ export const getTransactionById = async (req, res, next) => {
     }
 };
 
-
+// [GET] listTransactions
 export const listTransactions = async (req, res, next) => {
     try {
-        // Vytáhneme si filtry z query (pro tebe teď nepovinné, ale připravené)
-        const { accountId, page = 1, pageSize = 50 } = req.query;
+        const validation = schemas.listTransactionsSchema.safeParse(req.query);
 
-        // Simulujeme pole transakcí (vracíme seznam s jednou ukázkovou transakcí)
+        const { accountId, page, pageSize } = validation.success
+            ? validation.data
+            : { page: 1, pageSize: 50 };
+
         res.status(200).json({
             items: [
                 {
                     transactionId: "TXN-001",
                     accountId: accountId || "ACC-DEFAULT",
-                    counterpartyAccount: "CZ987654321",
                     amount: 500,
                     currency: "CZK",
                     direction: "outcome",
                     status: "completed",
-                    vs: "111222",
-                    ks: "0308",
-                    ss: "",
-                    note: "Platba kartou - Supermarket",
-                    createdAt: "2026-03-27T21:31:58.262Z",
-                    postedAt: "2026-03-27T21:31:58.262Z"
+                    createdAt: "2026-03-27T21:31:58.262Z"
                 }
             ],
             total: 1,
             page: Number(page),
             pageSize: Number(pageSize)
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// [POST] refundTransaction
+export const refundTransaction = async (req, res, next) => {
+    try {
+
+        const validation = schemas.refundTransactionSchema.safeParse(req.body);
+
+        if (!validation.success) {
+            return res.status(400).json({ status: "error", errors: validation.error.format() });
+        }
+
+        const { transactionId, note } = validation.data;
+
+        res.status(200).json({
+            status: "success",
+            message: "Refund úspěšně zpracován",
+            transactionId,
+            note: note || "Reversal"
         });
     } catch (error) {
         next(error);
