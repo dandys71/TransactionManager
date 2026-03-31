@@ -13,8 +13,8 @@ import { router as usersRouter } from './routes/users.js';
 import { router as healthRouter } from './routes/health.js';
 import {router as transactionsRouter} from './routes/transactions.js'
 import { router as standingOrdersRouter } from "./routes/standingOrder.js";
-
 import {router as savingAccountsRoutes }from "./routes/savingAccounts.js";
+import { router as eventsRoutes } from "./routes/eventsRoutes.js";
 
 import { errorHandler } from './middlewares/errorHandler.js';
 
@@ -45,7 +45,8 @@ app.use('/v1/events', eventsRoutes);
 
 //toto je centrální error handler, všimněte si, že pokud někde nastane chyba, tak se nepošle uživateli rovnou přes res, ale volá se next,
 // proč next? jelikož jsme ho "zaregistrovali pomocí use" až za /v1/accounts a za /v1/health a je tedy až další v řadě pro zpracování
-app.use(errorHandler);
+
+app.use("/v1/events", eventsRoutes);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
