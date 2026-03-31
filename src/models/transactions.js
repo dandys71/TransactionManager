@@ -1,4 +1,4 @@
-// Pomocná funkce pro náhodná ID (jen pro simulaci)
+// Pomocná funkce pro náhodná ID (only for simulaci)
 const generateId = (prefix) => `${prefix}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
 // Šablona pro novou transakci (createTransaction & createInternalTransfer)
@@ -18,6 +18,7 @@ export const createTransactionObject = (data, type = 'external') => {
     };
 };
 
+
 // Šablona pro detail jedné transakce (getTransactionById)
 export const createTransactionDetailObject = (id) => {
     return {
@@ -33,6 +34,7 @@ export const createTransactionDetailObject = (id) => {
     };
 };
 
+
 // Šablona pro seznam transakcí (listTransactions)
 export const createTransactionListObject = (filters) => {
     return {
@@ -46,6 +48,7 @@ export const createTransactionListObject = (filters) => {
     };
 };
 
+
 // Šablona pro refundaci (refundTransaction)
 export const createRefundObject = (transactionId, note) => {
     return {
@@ -56,6 +59,7 @@ export const createRefundObject = (transactionId, note) => {
     };
 };
 
+
 // Šablona pro výpis (generateStatement)
 export const createStatementObject = (data) => {
     return {
@@ -65,6 +69,7 @@ export const createStatementObject = (data) => {
         createdAt: new Date().toISOString()
     };
 };
+
 
 // Šablona pro čekající platby (getPending)
 export const createPendingTransactionObject = (accountId, amount, note) => {
@@ -78,6 +83,7 @@ export const createPendingTransactionObject = (accountId, amount, note) => {
         postedAt: null
     };
 };
+
 
 // Šablona pro zrušenou platbu (cancelPending)
 export const createCancelledTransactionObject = (transactionId) => {

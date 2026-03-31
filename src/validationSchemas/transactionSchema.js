@@ -12,6 +12,7 @@ export const createTransactionBodySchema = z.object({
     note: z.string().optional()
 });
 
+
 // Validace pro převod mezi vlastními účty [POST]
 export const createInternalTransferBodySchema = z.object({
     fromAccountId: z.string().min(1, "Zdrojový účet je povinný"),
@@ -21,10 +22,12 @@ export const createInternalTransferBodySchema = z.object({
     note: z.string().optional()
 });
 
+
 // Validace pro získání detailu transakce [GET]
 export const getTransactionByIdSchema = z.object({
     transactionId: z.string().min(1, "ID transakce je povinné")
 });
+
 
 // Validace pro výpis transakcí (filtry v URL) [GET]
 export const listTransactionsSchema = z.object({
@@ -33,11 +36,13 @@ export const listTransactionsSchema = z.object({
     pageSize: z.string().optional().default("50").transform((val) => Number(val)),
 });
 
+
 // Validace pro vrácení platby (Refund) [POST]
 export const refundTransactionSchema = z.object({
     transactionId: z.string().min(1, "ID transakce pro refund je povinné"),
     note: z.string().optional()
 });
+
 
 // Validace pro generování výpisů za období [POST]
 export const generateStatementSchema = z.object({
@@ -46,6 +51,7 @@ export const generateStatementSchema = z.object({
     dateTo: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formát musí být YYYY-MM-DD"),
     format: z.enum(["PDF", "CSV", "JSON"]).default("PDF")
 });
+
 
 // Validace pro seznam naplánovaných/čekajících plateb [GET]
 export const getPendingTransactionsSchema = z.object({
