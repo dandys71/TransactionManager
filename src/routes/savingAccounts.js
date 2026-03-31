@@ -33,10 +33,10 @@ router.get('/getHistory', /*authMiddleware,*/ SavingAccountsController.getHistor
 router.post("/transferToCurrent", /*authMiddleware,*/ SavingAccountsController.transferToCurrent);
 
 // GET /v1/savingsAccounts/getInterestSettings
-router.get('/InterestSettings', SavingAccountsController.getInterestSettings);
+router.get('/getInterestSettings', SavingAccountsController.getInterestSettings);
 
 // POST /v1/savingsAccounts/updateInterestRate
 router.post('/updateInterestRate', SavingAccountsController.updateInterestRate);
 
-// POST /v1/savingsAccount/applyInterest
+// POST /v1/savingsAccounts/applyInterest
 router.post('/applyInterest', SavingAccountsController.applyInterest);

@@ -91,7 +91,7 @@ export function applyInterest(institutionId, accountId, asOf, mode) {
     const acc = savingAccounts.get(accountId);
     if (!acc) return null;
 
-    const interestRate = acc.interestRate / 100;
+    const interestRate = acc.interestRate / 100 / 12;
     const balance = acc.balance;
 
     const interest = balance * interestRate;
