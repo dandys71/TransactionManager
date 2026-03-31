@@ -1,7 +1,6 @@
 import * as StandingOrderService from '../services/standingOrderService.js';
 import {validate} from "../services/validationService.js";
 import * as StandingOrderSchema from "../validationSchemas/standingOrderSchemas.js"
-import {StandingOrder} from "../models/standingOrder.js";
 
 
 
