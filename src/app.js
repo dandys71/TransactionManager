@@ -1,33 +1,28 @@
 /**
- * Controller vyřídí HTTP požadavek, servisa rozhodne „co se má stát“ a model je místo, kde se drží a načítají data (ať už z paměti, ze souboru nebo z databáze).
+ * Controller vyřídí HTTP požadavek, servisa rozhodne „co se má stát“ a model je místo, kde se drží a načítají data.
  */
 
-/**
- * Jak spouštět:
- * Nejdříve npm install - stáhne potřebné balíčky podle package.json
- * Následně npm run dev - pro spuštění ve vývojovém režimu (spustí to script, který je definován v package.json - "dev": "node --watch src/app.js"); watch se stará o sledování změň a automatické restartování serveru
- * Pro normální spuštění npm start (opět spustí script z package.json, který se jmenuje start)
- * */
 import express from 'express';
-import morgan from 'morgan'; //Loguje do konzole, např. GET /v1/health/ping 200 8.3 ms, pomáhá při ladění
-import cors from 'cors'; // aby se tvoje API dalo volat z frontendů na jiné doméně/portu,
+import morgan from 'morgan';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
 
-import helmet from 'helmet'; //nastaví sadu bezpečnostních HTTP hlaviček (např. X-Content-Type-Options, X-DNS-Prefetch-Control, atd.), čímž snižuje některá rizika ve výchozím nastavení.
-import dotenv from 'dotenv'; //načte proměnné z .env souboru do process.env (např. PORT, „tajemství“ pro tokeny). Díky tomu nejsou hodnoty natvrdo v kódu.
-
-import { router as accountsRouter } from './routes/accounts.js'; //vytvořené routy musíme naimportovat
-import { router as usersRouter } from './routes/users.js'
+import { router as accountsRouter } from './routes/accounts.js';
+import { router as usersRouter } from './routes/users.js';
 import { router as healthRouter } from './routes/health.js';
 import {router as transactionsRouter} from './routes/transactions.js'
+import { router as standingOrdersRouter } from "./routes/standingOrder.js";
+
+import {router as savingAccountsRoutes }from "./routes/savingAccounts.js";
 
 import { errorHandler } from './middlewares/errorHandler.js';
 
 dotenv.config();
 
 const app = express();
-//u app.use záleží na pořadí v jakém je definujeme, podle toho se pak předává požadavek dale pro další zpracování,
-// např. aktuálně jde nejdříve požadavek přes helmet, následně do corcs, pak do express.json(), do morgan('dev'),
-// pak bude později následovat autorizace pomocí authMiddleware až poté ho zpracují naše routy
+
+// Globální middleware
 app.use(helmet());
 app.use(cors());// toto povolí vše,  app.use(cors({ origin: 'http://localhost:3000' })); // přísnější varianta, na 3000 standardně bývá frontend
 app.use(express.json()); //to co přijde od klienta (request) se vloží do req.body (očekává se práce s json objekty)
@@ -44,12 +39,14 @@ app.use('/v1/accounts', accountsRouter); //všechny routy, co vytvoříme v rout
 app.use('/v1/health', healthRouter); //routa pro rychlé ověření, že server běží a naslouchá
 app.use('/v1/users', usersRouter); //routa pro praci s uzivateli
 app.use('/v1/transactions', transactionsRouter);
+app.use("/v1/savingsAccounts", savingAccountsRoutes);
+app.use('/v1/standingOrders', standingOrdersRouter);
 
 //toto je centrální error handler, všimněte si, že pokud někde nastane chyba, tak se nepošle uživateli rovnou přes res, ale volá se next,
 // proč next? jelikož jsme ho "zaregistrovali pomocí use" až za /v1/accounts a za /v1/health a je tedy až další v řadě pro zpracování
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5001; //pokusí se to načíst port z env, pokud neuspěje tak použije defaultně 5001 (což odpovídá tomu v env)
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-  console.log(`TransactionManager running on http://localhost:${PORT}`);
+    console.log(`TransactionManager running on http://localhost:${PORT}`);
 });
