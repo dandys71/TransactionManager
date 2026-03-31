@@ -77,6 +77,22 @@ class AccountsController {
       res.json(data);
     } catch (e) { next(e); }
   }
+
+  async getStandingOrders(req, res, next) {
+    try {
+      const q = validate(ValidationSchemas.getStandingOrdersQuerySchema, req.query);
+      const data = await AccountsService.getStandingOrders(q.accountId, req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
+
+  async generateAccountNumber(req, res, next) {
+    try {
+      // validace je k nicemu, jelikoz tohle nepozaduje zadny parametry
+      const data = await AccountsService.generateAccountNumber(req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
 }
 
 // Vytvoříme jednu instanci třídy a exportujeme její metody pod původními názvy
@@ -90,3 +106,5 @@ export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
+export const getStandingOrders = controller.getStandingOrders.bind(controller);
+export const generateAccountNumber = controller.generateAccountNumber.bind(controller);

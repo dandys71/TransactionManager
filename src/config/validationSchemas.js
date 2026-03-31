@@ -19,6 +19,8 @@ export const getHistoryQuerySchema = z.object({
   pageSize: z.coerce.number().int().min(1).max(200).default(50)
 });
 
+export const getStandingOrdersQuerySchema = accountIdQuerySchema;
+
 export const createAccountBodySchema = z.object({
   userId: z.string(),
   institutionId: z.string(),

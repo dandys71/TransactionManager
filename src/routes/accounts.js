@@ -28,3 +28,9 @@ router.get('/getBalance', AccountsController.getBalance);
 
 // GET /v1/accounts/getHistory?accountId=...
 router.get('/getHistory', AccountsController.getHistory);
+
+// GET /v1/accounts/getStandingOrders?accountId=...
+router.get('/getStandingOrders', AccountsController.getStandingOrders);
+
+// GET /v1/accounts/generateAccountNumber
+router.post('/generateAccountNumber', AccountsController.generateAccountNumber);

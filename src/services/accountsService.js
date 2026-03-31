@@ -46,3 +46,26 @@ export async function getHistory({ accountId }, user) {
   // Pro demo vracíme prázdný seznam
   return { items: [], total: 0, page: 1, pageSize: 50 };
 }
+
+export async function getStandingOrders(accountId, user) {
+  // zatim jen testovaci seznam
+  return [
+    {
+      standingOrderId: "so_123",
+      accountId: "acc_123",
+      templateId: "tem_123",
+      interval: "DAILY",
+      customCron: "",
+      dayOfMonth: 1,
+      amount: 123,
+      currency: "CZK",
+      nextRunAt: "2026-03-31T07:43:53.859Z",
+      isActive: true
+    }
+  ];
+}
+
+export async function generateAccountNumber(user) {
+  // toto smí volat pouze admin, dodělat...
+  return { accountNumber: Accounts.generateAccountNumber() };
+}

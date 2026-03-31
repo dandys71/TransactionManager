@@ -9,9 +9,12 @@ import crypto from 'crypto'; //toto se používá jen na generování náhodnéh
 
 const _mem = new Map();
 
+// pocitadlo, ktery se pouziva pro generaci unikatniho cisla uctu
+let accountCounter = 1;
+
 //export = zpřístupníš proměnnou/funkci z jednoho souboru pro použití v jiném.
 export const Accounts = {
-    create(data) {
+  create(data) {
     const accountId = `acc_${crypto.randomUUID()}`;
     const createdAt = new Date().toISOString();
 
@@ -20,7 +23,7 @@ export const Accounts = {
       accountId,
       userId: data.userId,
       institutionId: data.institutionId,
-      accountNumber: data.accountNumber || '000000-0000000000/0100',
+      accountNumber: data.accountNumber || '000000000/0100',
       name: data.name || 'Můj účet',
       currency: data.currency,
       balance: data.balance ?? 0,
@@ -32,6 +35,7 @@ export const Accounts = {
     _mem.set(accountId, item);
     return item;
   },
+
   update({ accountId, ...rest }) {
     const curr = _mem.get(accountId);
     if (!curr) return null;
@@ -45,6 +49,7 @@ export const Accounts = {
     _mem.set(accountId, updated);
     return updated;
   },
+
   close(accountId, closeDate) {
     const curr = _mem.get(accountId);
     if (!curr) return null;
@@ -53,15 +58,30 @@ export const Accounts = {
     _mem.set(accountId, curr);
     return curr;
   },
+
   findByIdForUser(accountId, userId) {
     const a = _mem.get(accountId);
     if (!a) return null;
     if (userId && a.userId !== userId) return null;
     return a;
   },
+
   listByUser(userId, { page = 1, pageSize = 50 } = {}) {
     const all = [..._mem.values()].filter(a => !userId || a.userId === userId);
     const start = (page - 1) * pageSize;
     return all.slice(start, start + pageSize);
+  },
+
+  generateAccountNumber() {
+    const actualDate = new Date();
+
+    // padStart() zajistuje, aby byly nuly
+    const year = actualDate.getFullYear().toString().padStart(4, '0');
+    const month = (actualDate.getMonth() + 1).toString().padStart(2, '0');
+    const paddedCounter = accountCounter.toString().padStart(3, '0');
+
+    accountCounter++;
+
+    return `${year}${month}${paddedCounter}/0100`;
   }
 };
