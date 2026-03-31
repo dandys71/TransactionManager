@@ -1,2 +1,7 @@
-import * as eventsModel from "../models/eventsModel.js";
-import crypto from 'crypto';
+
+//[POST]triggerRandomEvent
+import * as EventsModel from '../models/eventsModel.js';
+
+export const shiftSimulation = async (data) => {
+    return EventsModel.createSimulationStatusObject(data.days, data.months);
+};

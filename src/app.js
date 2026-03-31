@@ -13,6 +13,8 @@ import { router as usersRouter } from './routes/users.js';
 import { router as healthRouter } from './routes/health.js';
 import {router as transactionsRouter} from './routes/transactions.js'
 import { router as standingOrdersRouter } from "./routes/standingOrder.js";
+import { router as eventsRoutes } from "./routes/eventsRoutes.js";
+
 
 import {router as savingAccountsRoutes }from "./routes/savingAccounts.js";
 
@@ -27,6 +29,7 @@ app.use(helmet());
 app.use(cors());// toto povolí vše,  app.use(cors({ origin: 'http://localhost:3000' })); // přísnější varianta, na 3000 standardně bývá frontend
 app.use(express.json()); //to co přijde od klienta (request) se vloží do req.body (očekává se práce s json objekty)
 app.use(morgan('dev')); //toto loguje do konzole, jen při spuštění v dev
+app.use("/v1/events", eventsRoutes);
 
 // jednoduché "ověření" JWT – jen ukázka, později nahradíte kontrolou podpisu
 //toto zatím ignorujte - bude to sloužit pro autorizaci
