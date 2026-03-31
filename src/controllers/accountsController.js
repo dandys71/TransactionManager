@@ -35,7 +35,12 @@ class AccountsController {
   async listAccounts(req, res, next) {
     try {
       // Použijeme ValidationService a externí schema z configu
-      const q = validate(ValidationSchemas.listAccountsQuerySchema, req.query);
+
+      const w = z.object({
+          userId: z.string().optional(),
+          page: z.coerce.number().int().min(1).default(1),
+          pageSize: z.coerce.number().int().min(1).max(200).default(50)
+      }).parse(req.query);
       //všimněte jsi, že jse v try bloku, pokud tedy něco selže, např. page bude záporná hodnota, tak se odchytí vyjímka (kde text chybové hlášky připraví zod)
         //voláme async funkci listAccounts, jelikož chceme počkat na výsledek použijeme před voláním funkce klíčové slovo await
       const data = await AccountsService.listAccounts(q, req.user); //pokud nenastane vyjímka, získají se data ze servisi
