@@ -12,7 +12,6 @@ export const createTransactionBodySchema = z.object({
     note: z.string().optional()
 });
 
-
 // Validace pro převod mezi vlastními účty [POST]
 export const createInternalTransferBodySchema = z.object({
     fromAccountId: z.string().min(1, "Zdrojový účet je povinný"),
@@ -22,23 +21,39 @@ export const createInternalTransferBodySchema = z.object({
     note: z.string().optional()
 });
 
-
 // Validace pro získání detailu transakce [GET]
 export const getTransactionByIdSchema = z.object({
     transactionId: z.string().min(1, "ID transakce je povinné")
 });
 
-
 // Validace pro výpis transakcí (filtry v URL) [GET]
 export const listTransactionsSchema = z.object({
     accountId: z.string().optional(),
-    page: z.string().transform(Number).optional().default("1").transform(Number), // z URL na číslo
-    pageSize: z.string().transform(Number).optional().default("50").transform(Number),
+    page: z.string().optional().default("1").transform((val) => Number(val)),
+    pageSize: z.string().optional().default("50").transform((val) => Number(val)),
 });
-
 
 // Validace pro vrácení platby (Refund) [POST]
 export const refundTransactionSchema = z.object({
     transactionId: z.string().min(1, "ID transakce pro refund je povinné"),
     note: z.string().optional()
+});
+
+// Validace pro generování výpisů za období [POST]
+export const generateStatementSchema = z.object({
+    accountId: z.string().min(1, "ID účtu je povinné"),
+    dateFrom: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formát musí být YYYY-MM-DD"),
+    dateTo: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formát musí být YYYY-MM-DD"),
+    format: z.enum(["PDF", "CSV", "JSON"]).default("PDF")
+});
+
+// Validace pro seznam naplánovaných/čekajících plateb [GET]
+export const getPendingTransactionsSchema = z.object({
+    accountId: z.string().min(1, "ID účtu je povinné pro výpis čekajících plateb")
+});
+
+
+// Validace pro zrušení naplánované/čekající platby [POST]
+export const cancelPendingSchema = z.object({
+    transactionId: z.string().min(1, "ID transakce je povinné pro zrušení")
 });
