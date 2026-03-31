@@ -11,3 +11,5 @@ router.post("/createStandingOrder", StandingController.createStandingOrder);
 router.post("/updateStandingOrder", StandingController.updateStandingOrder)
 router.post("/deleteStandingOrder", StandingController.deleteStandingOrder)
 router.get("/getStandingOrderById", StandingController.getStandingOrderById);
+router.get("/listStandingOrders", StandingController.listStandingOrders);
+router.post("/runNow", StandingController.runNow);

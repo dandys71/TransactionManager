@@ -3,12 +3,12 @@
         const _mem = new Map();
 
         const item = {
-            standingOrderId: "so_123",
+            standingOrderId: "ZkušebníPříkaz",
             accountId: "",
             templateId: "",
             interval: "",
             customCron: "",
-            dayOfMonth: "",
+            dayOfMonth: 14,
             amount: 100,
             currency: "",
             nextRunAt: "",
@@ -50,7 +50,6 @@
             update(data) {
                 const existingItem = _mem.get(data.standingOrderId);
                 if(!existingItem) return null;
-
                 const updated = {...existingItem, ...data}
 
                 _mem.set(data.standingOrderId, updated);
@@ -63,5 +62,19 @@
 
                 _mem.delete(standingOrderId);
                 return existing;
+            },
+            list(filters) {
+                let orders = Array.from(_mem.values());
+
+                if (filters.accountId) {
+                    orders = orders.filter(o => o.accountId === filters.accountId);
+                }
+                if (typeof filters.active !== 'undefined') {
+                    orders = orders.filter(o => o.isActive === filters.active);
+                }
+                return orders;
             }
         }
+        // Přidej do StandingOrder v models/standingOrder.js
+
+
