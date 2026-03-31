@@ -41,6 +41,7 @@ app.use('/v1/users', usersRouter); //routa pro praci s uzivateli
 app.use('/v1/transactions', transactionsRouter);
 app.use("/v1/savingsAccounts", savingAccountsRoutes);
 app.use('/v1/standingOrders', standingOrdersRouter);
+app.use('/v1/events', eventsRoutes);
 
 //toto je centrální error handler, všimněte si, že pokud někde nastane chyba, tak se nepošle uživateli rovnou přes res, ale volá se next,
 // proč next? jelikož jsme ho "zaregistrovali pomocí use" až za /v1/accounts a za /v1/health a je tedy až další v řadě pro zpracování
