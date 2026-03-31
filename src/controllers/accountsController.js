@@ -7,7 +7,7 @@
 import * as AccountsService from '../services/accountsService.js';
 
 import { validate } from '../services/validationService.js';
-import * as ValidationSchemas from '../config/validationSchemas.js';
+import * as ValidationSchemas from '../validationSchemas/accountsSchema.js';
 
 /**
  * Zod je malá knihovna na ověřování a „tvarování“ dat (validaci). Uděláš si „schéma" toho, jak mají vypadat vstupy (třeba body/query),
@@ -93,6 +93,14 @@ class AccountsController {
       res.json(data);
     } catch (e) { next(e); }
   }
+
+  async getQrCode(req, res, next) {
+    try {
+      const q = validate(ValidationSchemas.getQrCodeQuerySchema, req.query);
+      const data = await AccountsService.getQrCode(q, req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
 }
 
 // Vytvoříme jednu instanci třídy a exportujeme její metody pod původními názvy
@@ -108,3 +116,4 @@ export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
 export const getStandingOrders = controller.getStandingOrders.bind(controller);
 export const generateAccountNumber = controller.generateAccountNumber.bind(controller);
+export const getQrCode = controller.getQrCode.bind(controller);

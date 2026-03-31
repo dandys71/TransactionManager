@@ -10,6 +10,8 @@
  */
 import { Accounts } from '../models/accounts.js';
 
+import QRCode from 'qrcode';
+
 //export = zpřístupníš proměnnou/funkci z jednoho souboru pro použití v jiném.
 //Normální funkce vrací hodnotu hned.
 //Async funkce vrací Promise (slib), protože dělá něco „na pozadí“ (čeká na síť/DB/časovač).
@@ -68,4 +70,14 @@ export async function getStandingOrders(accountId, user) {
 export async function generateAccountNumber(user) {
   // toto smí volat pouze admin, dodělat...
   return { accountNumber: Accounts.generateAccountNumber() };
+}
+
+//export async function transferToSavings()
+//export async function transferFromSavings()
+
+export async function getQrCode({ accountId, amount, message }, user) {
+  const params = `test`;
+  const url = await QRCode.toDataURL(params);
+
+  return { pngBase64: url };
 }
