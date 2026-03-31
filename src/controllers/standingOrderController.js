@@ -78,7 +78,16 @@ class StandingOrderController {
             res.status(200).json(result);
         } catch (e) { next(e); }
     }
+    async previewNextExecutions(req, res, next) {
+        try {
+            const body = validate(StandingOrderSchema.previewNextExecutions, req.body);
+            const result = await StandingOrderService.previewNextExecutions(body.standingOrderId, body.windowDays);
 
+            if (!result) return res.status(404).json({ error: 'Not Found' });
+
+            res.status(200).json(result);
+        } catch (e) { next(e); }
+    }
 
 
 
@@ -92,3 +101,4 @@ export const updateStandingOrder = controller.updateStandingOrder.bind(controlle
 export const deleteStandingOrder = controller.deleteStandingOrder.bind(controller);
 export const listStandingOrders = controller.listStandingOrders.bind(controller);
 export const runNow = controller.runNow.bind(controller);
+export const previewNextExecutions = controller.previewNextExecutions.bind(controller);

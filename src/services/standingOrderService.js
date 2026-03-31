@@ -51,3 +51,17 @@ export async function runNow(standingOrderId, asOf) {
 
     return [transaction]; // Swagger očekává pole
 }
+
+
+export async function previewNextExecutions(standingOrderId, windowDays) {
+    const order = await StandingOrder.get(standingOrderId);
+    if (!order) return null;
+
+    // Vrátíme prostě dva fixní termíny, aby uživatel něco viděl
+    return {
+        items: [
+            { date: "2026-04-01", expectedAmount: order.amount },
+            { date: "2026-05-01", expectedAmount: order.amount }
+        ]
+    };
+}

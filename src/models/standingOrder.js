@@ -4,14 +4,14 @@
 
         const item = {
             standingOrderId: "ZkušebníPříkaz",
-            accountId: "",
-            templateId: "",
-            interval: "",
-            customCron: "",
+            accountId: "a123",
+            templateId: "t123",
+            interval: "monthly",
+            customCron: "123",
             dayOfMonth: 14,
-            amount: 100,
-            currency: "",
-            nextRunAt: "",
+            amount: 1000,
+            currency: "czk",
+            nextRunAt: "date",
             isActive: true,
         };
 

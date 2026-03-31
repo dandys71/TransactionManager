@@ -43,3 +43,7 @@ export const runNow = z.object({
     standingOrderId: z.string(),
     asOf: z.string().optional() // Datum, ke kterému se to má provést
 });
+export const previewNextExecutions = z.object({
+    standingOrderId: z.string(),
+    windowDays: z.number().min(1).max(365).default(30)
+});
