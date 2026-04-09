@@ -1,31 +1,30 @@
 // src/controllers/savingAccountsController.js
 
 import {
-    getAllSavingAccounts,
-    getSavingAccountById,
-    createSavingAccount,
-    updateSavingAccountById,
+    applyInterest as applyInterestService,
     closeSavingAccountById,
+    createSavingAccount,
     getALLBalance,
     getALLHistory,
-    transferALLToCurrent,
+    getAllSavingAccounts,
     getInterestSettings as getInterestSettingsService,
+    getSavingAccountById,
+    transferALLToCurrent,
     updateInterestRate as updateInterestRateService,
-    applyInterest as applyInterestService
-
+    updateSavingAccountById
 } from "../services/savingAccounts.js";
 
 import {validate} from "../services/validationService.js";
 import {
-    createSavingAccountSchema,
-    updateSavingAccountSchema,
+    applyInterestSchema,
     closeSavingAccountSchema,
+    createSavingAccountSchema,
     getBalanceQuerySchema,
     getHistoryQuerySchema,
-    transferToCurrentSchema,
     getInterestSettingsSchema,
+    transferToCurrentSchema,
     updateInterestRateSchema,
-    applyInterestSchema
+    updateSavingAccountSchema
 } from "../validationSchemas/savingAccountsSchemas.js";
 
 

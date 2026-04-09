@@ -1,4 +1,3 @@
-
 /**
  * „model“ je jen popis tvaru dat, se kterými aplikace pracuje, plus pár funkcí, jak s těmito daty zacházet.
  *

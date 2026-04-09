@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import { JWT_SECRET }  from '../config/const.js';
+import {JWT_SECRET} from '../config/const.js';
 
 /**
  * Velmi jednoduchý middleware, který z requestu načte hlavičku Authorization.

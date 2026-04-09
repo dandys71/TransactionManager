@@ -1,6 +1,6 @@
 // src/routes/savingAccounts.js
 
-import { Router } from 'express';
+import {Router} from 'express';
 import * as SavingAccountsController from '../controllers/savingAccountsController.js';
 
 //import { allowRoles } from "../middlewares/roles.js";

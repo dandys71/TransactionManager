@@ -1,5 +1,5 @@
+import {Router} from 'express';
 
-import { Router } from 'express';
 export const router = Router();
 
 router.get('/ping', (_req, res) => {

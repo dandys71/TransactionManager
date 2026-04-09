@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
 // Centralizovaná definice validačních schémat (použij pro různé controllery)
 export const listAccountsQuerySchema = z.object({

@@ -1,4 +1,4 @@
-import { ZodError } from 'zod';
+import {ZodError} from 'zod';
 
 // Vlastní třída chyby pro validaci
 export class ValidationError extends Error {

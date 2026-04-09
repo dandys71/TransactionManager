@@ -1,4 +1,3 @@
-
 /**
  * Servisa = „mozkovna“ (aplikační logika).
  * Neřeší HTTP. Dělá výpočty a rozhodnutí: ověří, jestli účet patří uživateli, spočítá zůstatek, uloží/načte data, spustí převod atd.
@@ -8,7 +7,7 @@
  * Tady bude "aplikační logika". Zatím pracujeme s pamětí,
  * později se to napojí na skutečnou databázi.
  */
-import { Accounts } from '../models/accounts.js';
+import {Accounts} from '../models/accounts.js';
 
 import QRCode from 'qrcode';
 

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
 // Validace pro jednorázová platba/převod [POST]
 export const createTransactionBodySchema = z.object({

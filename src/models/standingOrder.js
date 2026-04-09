@@ -1,6 +1,6 @@
-        import crypto from 'crypto';
+import crypto from 'crypto';
 
-        const _mem = new Map();
+const _mem = new Map();
 
         const item = {
             standingOrderId: "ZkušebníPříkaz",

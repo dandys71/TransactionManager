@@ -1,7 +1,6 @@
-
-import { Router } from 'express';
+import {Router} from 'express';
 import * as AccountsController from '../controllers/accountsController.js'; //
-import { allowRoles } from "../middlewares/roles.js";
+import {allowRoles} from "../middlewares/roles.js";
 import {authMiddleware} from "../middlewares/auth.js";
 
 

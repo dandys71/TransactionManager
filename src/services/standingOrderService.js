@@ -1,4 +1,4 @@
-import { StandingOrder } from '../models/standingOrder.js';
+import {StandingOrder} from '../models/standingOrder.js';
 
 //export = zpřístupníš proměnnou/funkci z jednoho souboru pro použití v jiném.
 //Normální funkce vrací hodnotu hned.

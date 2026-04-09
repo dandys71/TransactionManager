@@ -3,7 +3,6 @@ import {validate} from "../services/validationService.js";
 import * as StandingOrderSchema from "../validationSchemas/standingOrderSchemas.js"
 
 
-
 class StandingOrderController {
 
     async createStandingOrder(req, res, next) {

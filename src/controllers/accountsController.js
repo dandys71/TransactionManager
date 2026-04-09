@@ -6,7 +6,7 @@
 
 import * as AccountsService from '../services/accountsService.js';
 
-import { validate } from '../services/validationService.js';
+import {validate} from '../services/validationService.js';
 import * as ValidationSchemas from '../validationSchemas/accountsSchema.js';
 
 /**

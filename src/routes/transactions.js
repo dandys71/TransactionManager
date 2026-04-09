@@ -1,4 +1,4 @@
-import { Router } from "express";
+import {Router} from "express";
 import * as transactionsController from "../controllers/transactionsController.js";
 
 const router = Router();

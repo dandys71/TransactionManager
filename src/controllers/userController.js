@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { JWT_SECRET }  from '../config/const.js';
-
-import { validate } from '../services/validationService.js';
-import * as ValidationSchemas from '../validationSchemas/accountsSchema.js';
+import {JWT_SECRET} from '../config/const.js';
 
 
 const users = []; // jen pro demo
