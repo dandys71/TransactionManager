@@ -1,12 +1,8 @@
-
-import {Router} from 'express';
-import { createEventTemplate } from "../controllers/eventsController.js";
+import { Router } from 'express';
+import * as eventsController from "../controllers/eventsController.js";
 
 export const router = Router();
 
-//[POST]triggerRandomEvent
-router.post("/simulation/shift", eventsController.shiftSimulation);
+router.post("/trigger", eventsController.triggerRandomEvent);
 
-router.post("/previewNextWindow", eventsController.)fdfs
-
-export default router;
+router.post("/previewNextWindow", eventsController.previewNextWindow);

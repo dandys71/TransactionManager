@@ -1,2 +1,10 @@
 import * as eventsModel from "../models/eventsModel.js";
-import crypto from 'crypto';
+
+export const triggerEvent = async (data) => {
+    return eventsModel.createTriggeredEventObject(data);
+};
+
+
+export const previewNextWindow = async (data) => {
+    return eventsModel.createPreviewWindowObject(data);
+};
