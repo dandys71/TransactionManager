@@ -5,3 +5,45 @@ export function createEventTemplate(data) {
     eventTemplates.set(data.eventTemplateId, data);
     return data;
 }
+
+export function updateEventTemplate(data) {
+    const existing = eventTemplates.get(data.eventTemplateId);
+
+    if (!existing) {
+      const err = new Error("Event template not found");
+      err.status = 404;
+      throw err;
+    }
+
+    const update = {
+        ...existing,
+        ...data
+    };
+    eventTemplates.set(update.eventTemplateId, update);
+    return update;
+}
+
+export function deleteEventTemplate(eventTemplateId) {
+    const existing = eventTemplates.get(eventTemplateId);
+
+    if (!existing) {
+        const err = new Error("Event template not found");
+        err.status = 404;
+        throw err;
+    }
+
+    eventTemplates.delete(eventTemplateId);
+}
+
+export function getEventTemplateById(eventTemplateId) {
+    const existing = eventTemplates.get(eventTemplateId);
+
+    if (!existing) {
+        const err = new Error("Event template not found");
+        err.status = 404;
+        throw err;
+    }
+
+    return existing;
+}
+
