@@ -1,3 +1,4 @@
+
 import { Router } from 'express';
 import * as AccountsController from '../controllers/accountsController.js'; //
 import { allowRoles } from "../middlewares/roles.js";
@@ -28,3 +29,10 @@ router.get('/getBalance', AccountsController.getBalance);
 // GET /v1/accounts/getHistory?accountId=...
 router.get('/getHistory', AccountsController.getHistory);
 
+// GET /v1/accounts/getStandingOrders?accountId=...
+router.get('/getStandingOrders', AccountsController.getStandingOrders);
+
+// POST /v1/accounts/generateAccountNumber
+router.post('/generateAccountNumber', AccountsController.generateAccountNumber);
+
+router.get('/getQrCode', AccountsController.getQrCode);

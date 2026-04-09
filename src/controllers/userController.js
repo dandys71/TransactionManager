@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import { JWT_SECRET }  from '../config/const.js';
 
 import { validate } from '../services/validationService.js';
-import * as ValidationSchemas from '../config/validationSchemas.js';
+import * as ValidationSchemas from '../validationSchemas/accountsSchema.js';
 
 
 const users = []; // jen pro demo

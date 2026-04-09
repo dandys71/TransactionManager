@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { validate, ValidationError } from '../src/services/validationService.js';
-import { listAccountsQuerySchema } from '../src/config/validationSchemas.js';
+import { listAccountsQuerySchema } from '../src/validationSchemas/accountsSchema.js';
 
 describe('validationService', () => {
   it('validate throws ValidationError with code and details for invalid query', () => {

@@ -7,8 +7,7 @@
 import * as AccountsService from '../services/accountsService.js';
 
 import { validate } from '../services/validationService.js';
-import * as ValidationSchemas from '../config/validationSchemas.js';
-import {z} from "zod";
+import * as ValidationSchemas from '../validationSchemas/accountsSchema.js';
 
 /**
  * Zod je malá knihovna na ověřování a „tvarování“ dat (validaci). Uděláš si „schéma" toho, jak mají vypadat vstupy (třeba body/query),
@@ -21,11 +20,7 @@ import {z} from "zod";
 class AccountsController {
   async getAccountById(req, res, next) {
     try {
-      //const q = validate(ValidationSchemas.accountIdQuerySchema, req.query);
-        const q = z.object({
-            accountId: z.string()
-        }).parse(req.query);
-
+      const q = validate(ValidationSchemas.accountIdQuerySchema, req.query);
       const item = await AccountsService.getAccountById(q.accountId, req.user);
       if (!item) return res.status(404).json({ error: 'Not Found' });
       res.json(item);
@@ -35,12 +30,7 @@ class AccountsController {
   async listAccounts(req, res, next) {
     try {
       // Použijeme ValidationService a externí schema z configu
-
-      const w = z.object({
-          userId: z.string().optional(),
-          page: z.coerce.number().int().min(1).default(1),
-          pageSize: z.coerce.number().int().min(1).max(200).default(50)
-      }).parse(req.query);
+      const q = validate(ValidationSchemas.listAccountsQuerySchema, req.query);
       //všimněte jsi, že jse v try bloku, pokud tedy něco selže, např. page bude záporná hodnota, tak se odchytí vyjímka (kde text chybové hlášky připraví zod)
         //voláme async funkci listAccounts, jelikož chceme počkat na výsledek použijeme před voláním funkce klíčové slovo await
       const data = await AccountsService.listAccounts(q, req.user); //pokud nenastane vyjímka, získají se data ze servisi
@@ -87,6 +77,30 @@ class AccountsController {
       res.json(data);
     } catch (e) { next(e); }
   }
+
+  async getStandingOrders(req, res, next) {
+    try {
+      const q = validate(ValidationSchemas.getStandingOrdersQuerySchema, req.query);
+      const data = await AccountsService.getStandingOrders(q.accountId, req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
+
+  async generateAccountNumber(req, res, next) {
+    try {
+      // validace je k nicemu, jelikoz tohle nepozaduje zadny parametry
+      const data = await AccountsService.generateAccountNumber(req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
+
+  async getQrCode(req, res, next) {
+    try {
+      const q = validate(ValidationSchemas.getQrCodeQuerySchema, req.query);
+      const data = await AccountsService.getQrCode(q, req.user);
+      res.json(data);
+    } catch (e) { next(e); }
+  }
 }
 
 // Vytvoříme jednu instanci třídy a exportujeme její metody pod původními názvy
@@ -100,86 +114,6 @@ export const updateAccount = controller.updateAccount.bind(controller);
 export const closeAccount = controller.closeAccount.bind(controller);
 export const getBalance = controller.getBalance.bind(controller);
 export const getHistory = controller.getHistory.bind(controller);
-
-
-
-
-
-
-
-
-export const getTransactionById = async (req, res, next) => {
-    try {
-        const { transactionId } = req.query;
-
-        //hledání v DB
-        const transaction = await someDbSearch(transactionId);
-
-        // CHYBA 404:
-        if (!transaction) {
-            return res.status(404).json({
-                code: "string",
-                message: "string"
-            });
-        }
-
-        // ÚSPĚCH 200:
-        res.status(200).json({
-            transactionId: transaction.id,
-            accountId: transaction.accountId,
-            counterpartyAccount: transaction.counterpartyAccount,
-            amount: transaction.amount,
-            currency: transaction.currency,
-            direction: transaction.direction,
-            status: transaction.status,
-            vs: transaction.vs,
-            ks: transaction.ks,
-            ss: transaction.ss,
-            note: transaction.note,
-            createdAt: transaction.createdAt,
-            postedAt: transaction.postedAt
-        });
-
-    } catch (error) {
-        next(error);
-    }
-};
-
-
-export const listTransactions = async (req, res, next) => {
-    try {
-        // Extrahovane parametry z query zvalidované
-        const { accountId, page, pageSize } = req.query;
-
-// const { transactions, total } = await db.findTransactions(req.query); ?
-
-// USPECH 200:
-        res.status(200).json({
-            items: [
-                {
-                    transactionId: "string",
-                    accountId: "string",
-                    counterpartyAccount: "string",
-                    amount: 0,
-                    currency: "string",
-                    direction: "income",
-                    status: "pending",
-                    vs: "string",
-                    ks: "string",
-                    ss: "string",
-                    note: "string",
-                    createdAt: "2026-01-27T22:23:15.589Z",
-                    postedAt: "2026-01-27T22:23:15.589Z"
-                }
-            ],
-            total: 0,
-            page: 0,
-            pageSize: 0,
-        });
-
-    } catch (error) {
-        next(error);
-    }
-};
-
-
+export const getStandingOrders = controller.getStandingOrders.bind(controller);
+export const generateAccountNumber = controller.generateAccountNumber.bind(controller);
+export const getQrCode = controller.getQrCode.bind(controller);
