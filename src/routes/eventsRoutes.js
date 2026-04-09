@@ -14,3 +14,6 @@ router.post("/deleteEventTemplate", EventsController.deleteEventTemplate);
 
 // GET /v1/events/getEventTemplateById
 router.get("/getEventTemplateById", EventsController.getEventTemplateById);
+
+// GET /v1/events/getEventTemplateById
+router.get("/listEventTemplates", EventsController.listEventTemplates);

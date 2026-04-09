@@ -47,3 +47,17 @@ export function getEventTemplateById(eventTemplateId) {
     return existing;
 }
 
+export function listEventTemplates (institutionId, query) {
+    let list = Array.from(eventTemplates.values());
+
+    if (institutionId) {
+        list = list.filter(t => t.id === institutionId);
+    }
+
+    if (query){
+        const q = query.toLowerCase();
+        list = list.filter(t => t.name.toLowerCase().includes(q));
+    }
+
+    return list;
+}

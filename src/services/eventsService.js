@@ -14,3 +14,7 @@ export function deleteEventTemplate(eventTemplateId) {
 export function getEventTemplateById(eventTemplateId) {
     return eventsModel.getEventTemplateById(eventTemplateId);
 }
+
+export function listEventTemplates(institutionId, query) {
+    return eventsModel.listEventTemplates(institutionId, query);
+}

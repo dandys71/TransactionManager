@@ -55,5 +55,16 @@ export function getEventTemplateById(req, res, next) {
     }
 }
 
+export function listEventTemplates(req, res, next) {
+    try {
+        const { institutionId, query} = req.query;
+
+        const templates = eventsService.listEventTemplates(institutionId, query);
+        res.status(200).json(templates);
+    } catch (err) {
+        next(err);
+    }
+}
+
 
 
