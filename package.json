@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch src/app.js",
+    "dev": "nodemon --legacy-watch src/index.js",
     "start": "node src/app.js",
     "lint": "echo \"(lint)\"",
     "test": "mocha --exit --recursive \"tests/**/*.test.js\""
@@ -17,10 +17,12 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.0",
+    "pg": "^8.20.0",
     "qrcode": "^1.5.4",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "mocha": "^10.2.0"
+    "mocha": "^11.3.0",
+    "nodemon": "^3.1.14"
   }
 }

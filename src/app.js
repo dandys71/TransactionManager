@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import { Client } from "pg";
 
 import {router as accountsRouter} from './routes/accounts.js';
 import {router as usersRouter} from './routes/users.js';
@@ -22,12 +23,25 @@ dotenv.config();
 
 const app = express();
 
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+});
+
+client.connect()
+    .then(() => console.log("✅ Připojeno k DB"))
+    .catch(err => console.error("❌ DB chyba", err));
+
+app.get("/", async (req, res) => {
+    const result = await client.query("SELECT NOW()");
+    res.json(result.rows[0]);
+});
+
+
 // Globální middleware
 app.use(helmet());
 app.use(cors());// toto povolí vše,  app.use(cors({ origin: 'http://localhost:3000' })); // přísnější varianta, na 3000 standardně bývá frontend
 app.use(express.json()); //to co přijde od klienta (request) se vloží do req.body (očekává se práce s json objekty)
 app.use(morgan('dev')); //toto loguje do konzole, jen při spuštění v dev
-app.use("/v1/events", eventsRoutes);
 
 // jednoduché "ověření" JWT – jen ukázka, později nahradíte kontrolou podpisu
 //toto zatím ignorujte - bude to sloužit pro autorizaci

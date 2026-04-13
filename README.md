@@ -10,6 +10,11 @@ npm run dev
 # služba poběží na http://localhost:5001
 ```
 
+## Jak spustit Docker
+```bash
+docker compose up --build
+```
+
 ## Struktura složek
 ```
 /service-name/
