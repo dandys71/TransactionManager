@@ -8,7 +8,7 @@ import {authMiddleware} from "../middlewares/auth.js";
 export const router = Router();
 
 // GET /v1/accounts/getAccountById?accountId=...
-router.get('/getAccountById', authMiddleware, AccountsController.getAccountById);
+router.get('/getAccountById',/*, authMiddleware, */AccountsController.getAccountById);
 
 // GET /v1/accounts/listAccounts?userId=...&page=1&pageSize=50
 router.get('/listAccounts', AccountsController.listAccounts);

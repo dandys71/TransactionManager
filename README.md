@@ -10,9 +10,19 @@ npm run dev
 # služba poběží na http://localhost:5001
 ```
 
-## Jak spustit Docker
+## Jak ovládat Docker
 ```bash
-docker compose up --build
+docker compose up --build # při změně image (např. při npm install balíček)
+docker compose up #pro běžné spuštění, zablokuje terminál pro další příkazy (ale můžete si otevřít další terminál), ale jsou vidět logy
+docker compose up -d  #pro běžné spuštění, detachne (spustí kontejnery na pozadí), terminál je možné dál používat, ale nejsou vidět logy
+docker compose down #pro zastavení kontejnerů
+docker compose down -v #pro zastavení kontejnerů a smazání všech volumes (např. DB), potřeba znovu udělat build
+docker compose exec app npm run seed #pro spuštění seedu db (nahrání nějakých defaultních dat po smazání DB), musítě upravit seed ve scripts v package.json, aby spouštěl Váš seed soubor
+```
+## Drizzle
+```bash
+docker compose exec app npx drizzle-kit generate #vygeneruje migrační soubor (.sql) podle schématu v rámci Dockeru
+docker compose exec app npx drizzle-kit migrate #spustí vytvořenou migraci (.sql) - např. smaže staré tabulky a vytvoří nové podle nového schématu v rámci Dockeru
 ```
 
 ## Struktura složek

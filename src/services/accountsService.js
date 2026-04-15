@@ -21,7 +21,7 @@ export async function getAccountById(accountId, user) {
 
 export async function listAccounts({ userId, page, pageSize }, user) {
   const effectiveUser = userId || user?.id;
-  const items = Accounts.listByUser(effectiveUser, { page, pageSize });
+  const items = await Accounts.listByUser(effectiveUser, { page, pageSize });
   return { items, total: items.length, page, pageSize };
 }
 

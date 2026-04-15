@@ -7,12 +7,14 @@
     "dev": "nodemon --legacy-watch src/index.js",
     "start": "node src/app.js",
     "lint": "echo \"(lint)\"",
-    "test": "mocha --exit --recursive \"tests/**/*.test.js\""
+    "test": "mocha --exit --recursive \"tests/**/*.test.js\"",
+    "seed": "node src/seeds/accountSeed.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.45.2",
     "express": "^4.19.2",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.3",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "mocha": "^11.3.0",
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "drizzle-kit": "^0.31.10"
   }
 }

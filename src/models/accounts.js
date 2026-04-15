@@ -6,6 +6,11 @@
  */
 import crypto from 'crypto'; //toto se používá jen na generování náhodného ID pro uživatele
 
+import {db } from '../db/client.js'
+import { accounts } from '../db/accountSchema.js'
+import { eq, and } from "drizzle-orm";
+
+
 const _mem = new Map();
 
 // pocitadlo, ktery se pouziva pro generaci unikatniho cisla uctu
@@ -13,9 +18,9 @@ let accountCounter = 1;
 
 //export = zpřístupníš proměnnou/funkci z jednoho souboru pro použití v jiném.
 export const Accounts = {
-  create(data) {
+  async create(data) {
     const accountId = `acc_${crypto.randomUUID()}`;
-    const createdAt = new Date().toISOString();
+    const createdAt = new Date();
 
     //zde se vytvoří pomocná proměnná pro nový účet a nahrají se do ní potřebná data
     const item = {
@@ -30,46 +35,63 @@ export const Accounts = {
       createdAt
     };
 
-    //zde se přidá vytvořený item do kolekce (do mapy)
-    _mem.set(accountId, item);
+    await db.insert(accounts).values(item);
     return item;
   },
 
-  update({ accountId, ...rest }) {
-    const curr = _mem.get(accountId);
-    if (!curr) return null;
+  async update({ accountId, ...rest }) {
 
-    //rozbalení objektu v JS
-    //Vytvoří nový objekt.
-      // Do něj zkopíruje vlastnosti z curr.
-      // Pak do něj zkopíruje vlastnosti z rest a přepíše jimi stejné klíče z curr (co je vpravo, to vyhrává - má přednost).
-    const updated = { ...curr, ...rest };
-    //následně se aktualizuje
-    _mem.set(accountId, updated);
-    return updated;
+      const result = await db
+          .update(accounts)
+          .set(rest)
+          .where(eq(accounts.accountId, accountId))
+          .returning();
+
+      return result[0] ?? null;
+
   },
 
-  close(accountId, closeDate) {
-    const curr = _mem.get(accountId);
-    if (!curr) return null;
-    curr.isActive = false;
-    curr.closeDate = closeDate || new Date().toISOString().slice(0,10);
-    _mem.set(accountId, curr);
-    return curr;
+  async close(accountId, closeDate) {
+
+      const result = await db
+          .update(accounts)
+          .set({
+              isActive: false,
+              closeDate: closeDate || new Date().toISOString().slice(0, 10)
+          })
+          .where(eq(accounts.accountId, accountId))
+          .returning();
+
+      return result[0] ?? null;
+
   },
 
-  findByIdForUser(accountId, userId) {
-    const a = _mem.get(accountId);
-    if (!a) return null;
-    if (userId && a.userId !== userId) return null;
-    return a;
+  async findByIdForUser(accountId, userId) {
+      const result = await db
+          .select()
+          .from(accounts)
+          .where(
+              and(
+                  eq(accounts.accountId, accountId),
+                  userId ? eq(accounts.userId, userId) : undefined
+              )
+          );
+
+      return result[0] ?? null;
+
   },
 
-  listByUser(userId, { page = 1, pageSize = 50 } = {}) {
-    const all = [..._mem.values()].filter(a => !userId || a.userId === userId);
-    const start = (page - 1) * pageSize;
-    return all.slice(start, start + pageSize);
-  },
+ async listByUser(userId, { page = 1, pageSize = 50 } = {}) {
+
+      const offset = (page - 1) * pageSize;
+
+      return db
+          .select()
+          .from(accounts)
+          .where(userId ? eq(accounts.userId, userId) : undefined)
+          .limit(pageSize)
+          .offset(offset);
+    },
 
   generateAccountNumber() {
     const actualDate = new Date();
