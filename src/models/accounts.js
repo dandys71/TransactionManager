@@ -7,7 +7,7 @@
 import crypto from 'crypto'; //toto se používá jen na generování náhodného ID pro uživatele
 
 import {db } from '../db/client.js'
-import { accounts } from '../db/accountSchema.js'
+import { accounts } from '../db/schemas/accountSchema.js'
 import { eq, and } from "drizzle-orm";
 
 
@@ -85,7 +85,7 @@ export const Accounts = {
 
       const offset = (page - 1) * pageSize;
 
-      return db
+     return db
           .select()
           .from(accounts)
           .where(userId ? eq(accounts.userId, userId) : undefined)

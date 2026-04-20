@@ -3,7 +3,7 @@
 
 Tento projekt je připraven pro tým, který bude vytvářet jednotlivé cesty (endpointy) pro TransactionManager.
 
-## Jak spustit lokálně
+## Jak spustit lokálně 
 ```bash
 npm install
 npm run dev

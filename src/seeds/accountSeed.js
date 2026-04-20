@@ -1,6 +1,6 @@
 
 import { db } from "../db/client.js";
-import { accounts } from "../db/accountSchema.js";
+import { accounts } from "../db/schemas/accountSchema.js";
 
 async function seed() {
     console.log("🌱 Seeding database...");
